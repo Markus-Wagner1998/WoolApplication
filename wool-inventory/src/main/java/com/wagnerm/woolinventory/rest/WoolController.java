@@ -18,8 +18,27 @@ public class WoolController {
     }
 
     @GetMapping()
-    public List<Inventory> getInventories() {
-        return woolService.getInventories();
+    public List<Inventory> getInventories(@RequestParam(name = "name", required = false) String name,
+                                          @RequestParam(name = "color", required = false) String color,
+                                          @RequestParam(name = "brand", required = false) String brand,
+                                          @RequestParam(name = "initialAmountMin", required = false, defaultValue = "-1") int initialAmountMin,
+                                          @RequestParam(name = "initialAmountMax", required = false, defaultValue = "-1") int initialAmountMax,
+                                          @RequestParam(name = "remainingAmountMin", required = false, defaultValue = "-1") int remainingAmountMin,
+                                          @RequestParam(name = "remainingAmountMax", required = false, defaultValue = "-1") int remainingAmountMax,
+                                          @RequestParam(name = "singleAmountMin", required = false, defaultValue = "-1") int singleAmountMin,
+                                          @RequestParam(name = "singleAmountMax", required = false, defaultValue = "-1") int singleAmountMax
+                                          ) {
+        return woolService.getInventories(
+                name,
+                color,
+                brand,
+                initialAmountMin,
+                initialAmountMax,
+                remainingAmountMin,
+                remainingAmountMax,
+                singleAmountMin,
+                singleAmountMax
+        );
     }
 
     @GetMapping("/{inventoryId}")
