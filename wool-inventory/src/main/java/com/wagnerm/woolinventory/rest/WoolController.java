@@ -3,6 +3,7 @@ package com.wagnerm.woolinventory.rest;
 import com.wagnerm.woolinventory.service.WoolService;
 import com.wagnerm.woolinventory.service.data.Inventory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,11 @@ public class WoolController {
     }
 
     @GetMapping()
-    public List<Inventory> getInventories(@RequestParam(name = "name", required = false) String name,
+    public Page<Inventory> getInventories(@RequestParam(name = "pageNumber", required = false, defaultValue = "0") int pageNumber,
+                                          @RequestParam(name = "pageSize", required = false, defaultValue = "20") int pageSize,
+                                          @RequestParam(name = "sortOrder", required = false, defaultValue = "ASC") String sortOrder,
+                                          @RequestParam(name = "sortColumn", required = false, defaultValue = "name") String sortColumn,
+                                          @RequestParam(name = "name", required = false) String name,
                                           @RequestParam(name = "color", required = false) String color,
                                           @RequestParam(name = "brand", required = false) String brand,
                                           @RequestParam(name = "initialAmountMin", required = false, defaultValue = "-1") int initialAmountMin,
@@ -29,6 +34,10 @@ public class WoolController {
                                           @RequestParam(name = "singleAmountMax", required = false, defaultValue = "-1") int singleAmountMax
                                           ) {
         return woolService.getInventories(
+                pageNumber,
+                pageSize,
+                sortOrder,
+                sortColumn,
                 name,
                 color,
                 brand,

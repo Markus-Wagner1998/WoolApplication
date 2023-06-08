@@ -8,11 +8,9 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.convert.QueryByExamplePredicateBuilder;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +32,11 @@ public class WoolService {
         this.inventoryTagRepository = inventoryTagRepository;
     }
 
-    public List<Inventory> getInventories(String name,
+    public Page<Inventory> getInventories(int pageNumber,
+                                          int pageSize,
+                                          String sortOrder,
+                                          String sortColumn,
+                                          String name,
                                           String color,
                                           String brand,
                                           int initialAmountMin,
@@ -54,6 +56,13 @@ public class WoolService {
         searchInventory.setName(name);
         searchInventory.setColor(color);
         searchInventory.setBrand(brand);
+
+        Pageable page = PageRequest.of(
+                pageNumber,
+                pageSize,
+                Sort.Direction.fromString(sortOrder),
+                sortColumn
+        );
         return inventoryRepository.findAll(
                 this.getSpecFromDatesAndExample(
                         initialAmountMin,
@@ -63,7 +72,8 @@ public class WoolService {
                         singleAmountMin,
                         singleAmountMax,
                         Example.of(searchInventory, matcher)
-                )
+                ),
+                page
         );
     }
 
