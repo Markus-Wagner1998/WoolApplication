@@ -32,7 +32,7 @@ public class WoolService {
         this.inventoryTagRepository = inventoryTagRepository;
     }
 
-    public Page<Inventory> getInventories(int pageNumber,
+    public List<Inventory> getInventories(int pageNumber,
                                           int pageSize,
                                           String sortOrder,
                                           String sortColumn,
@@ -64,7 +64,7 @@ public class WoolService {
                 sortColumn
         );
         return inventoryRepository.findAll(
-                this.getSpecFromDatesAndExample(
+                this.getSpecForAmountsAndExample(
                         initialAmountMin,
                         initialAmountMax,
                         remainingAmountMin,
@@ -74,10 +74,10 @@ public class WoolService {
                         Example.of(searchInventory, matcher)
                 ),
                 page
-        );
+        ).getContent();
     }
 
-    private Specification<Inventory> getSpecFromDatesAndExample(
+    private Specification<Inventory> getSpecForAmountsAndExample(
             int initialAmountMin,
             int initialAmountMax,
             int remainingAmountMin,
@@ -114,7 +114,10 @@ public class WoolService {
                             singleAmountMax
                     )
             );
-            predicates.add(QueryByExamplePredicateBuilder.getPredicate(root, builder, example));
+            Predicate predicate = QueryByExamplePredicateBuilder.getPredicate(root, builder, example);
+            if (predicate != null) {
+                predicates.add(predicate);
+            }
             return builder.and(predicates.toArray(new Predicate[predicates.size()]));
         };
     }
@@ -138,13 +141,16 @@ public class WoolService {
         return inventoryRepository.findById(inventoryId).orElseThrow(IllegalAccessError::new);
     }
 
-    public void createInventory(Inventory inventory) {
-        inventory.setId(null);
-        inventoryRepository.save(inventory);
+    public Inventory createInventory(Inventory inventory) {
+        return this.saveInventoryWithId(null, inventory);
+    }
+
+    public Inventory updateInventory(Integer inventoryId, Inventory inventory) {
+        return this.saveInventoryWithId(inventoryId, inventory);
     }
 
     @Transactional
-    public void updateInventory(Integer inventoryId, Inventory inventory) {
+    private Inventory saveInventoryWithId(Integer inventoryId, Inventory inventory) {
         inventory.setId(inventoryId);
         if (inventory.getImages() != null) {
             inventoryImageRepository.deleteByInventoryId(inventoryId);
@@ -154,7 +160,7 @@ public class WoolService {
             inventoryTagRepository.deleteByInventoryId(inventoryId);
             inventory.getTags().forEach(inventoryTag -> inventoryTag.setInventory(inventory));
         }
-        inventoryRepository.save(inventory);
+        return inventoryRepository.save(inventory);
     }
 
     public void deleteInventory(Integer inventoryId) {

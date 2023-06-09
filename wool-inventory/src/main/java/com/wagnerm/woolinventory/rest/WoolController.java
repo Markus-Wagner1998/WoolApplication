@@ -19,7 +19,7 @@ public class WoolController {
     }
 
     @GetMapping()
-    public Page<Inventory> getInventories(@RequestParam(name = "pageNumber", required = false, defaultValue = "0") int pageNumber,
+    public List<Inventory> getInventories(@RequestParam(name = "pageNumber", required = false, defaultValue = "0") int pageNumber,
                                           @RequestParam(name = "pageSize", required = false, defaultValue = "20") int pageSize,
                                           @RequestParam(name = "sortOrder", required = false, defaultValue = "ASC") String sortOrder,
                                           @RequestParam(name = "sortColumn", required = false, defaultValue = "name") String sortColumn,
@@ -56,13 +56,13 @@ public class WoolController {
     }
 
     @PostMapping()
-    public void createInventory(@RequestBody Inventory inventory) {
-        this.woolService.createInventory(inventory);
+    public Inventory createInventory(@RequestBody Inventory inventory) {
+        return this.woolService.createInventory(inventory);
     }
 
     @PutMapping("/{inventoryId}")
-    public void updateInventory(@PathVariable("inventoryId") Integer inventoryId, @RequestBody Inventory inventory) {
-        woolService.updateInventory(inventoryId, inventory);
+    public Inventory updateInventory(@PathVariable("inventoryId") Integer inventoryId, @RequestBody Inventory inventory) {
+        return woolService.updateInventory(inventoryId, inventory);
     }
 
     @DeleteMapping("/{inventoryId}")

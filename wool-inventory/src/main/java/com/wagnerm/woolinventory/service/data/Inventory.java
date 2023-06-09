@@ -12,7 +12,6 @@ import java.util.List;
 @Entity
 @Table(name = "inventory")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -34,9 +33,9 @@ public class Inventory {
     private int remainingAmount;
     @Column(name = "single_amount")
     private int singleAmount;
-    @OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<InventoryTag> tags;
-    @OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<InventoryImage> images;
 
     public Inventory(String name, String color, String brand, int initialAmount, int remainingAmount, int singleAmount) {
