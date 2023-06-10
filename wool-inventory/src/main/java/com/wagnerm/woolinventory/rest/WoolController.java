@@ -2,7 +2,10 @@ package com.wagnerm.woolinventory.rest;
 
 import com.wagnerm.woolinventory.service.WoolService;
 import com.wagnerm.woolinventory.service.data.Inventory;
+import com.wagnerm.woolinventory.service.error.InventoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -72,4 +75,5 @@ public class WoolController {
     public void deleteInventory(@PathVariable("inventoryId") Integer inventoryId) {
         woolService.deleteInventory(inventoryId);
     }
+
 }
