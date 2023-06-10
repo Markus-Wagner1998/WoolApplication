@@ -4,6 +4,7 @@ import com.wagnerm.woolinventory.service.data.Inventory;
 import com.wagnerm.woolinventory.service.data.InventoryImageRepository;
 import com.wagnerm.woolinventory.service.data.InventoryRepository;
 import com.wagnerm.woolinventory.service.data.InventoryTagRepository;
+import com.wagnerm.woolinventory.service.error.InventoryNotFoundException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
@@ -39,6 +40,8 @@ public class WoolService {
                                           String name,
                                           String color,
                                           String brand,
+                                          int intensityMin,
+                                          int intensityMax,
                                           int initialAmountMin,
                                           int initialAmountMax,
                                           int remainingAmountMin,
@@ -51,7 +54,7 @@ public class WoolService {
                 .withMatcher("color", contains().ignoreCase())
                 .withMatcher("brand", contains().ignoreCase())
                 .withIgnoreNullValues()
-                .withIgnorePaths("initialAmount", "remainingAmount", "singleAmount");
+                .withIgnorePaths("initialAmount", "remainingAmount", "singleAmount", "intensity");
         Inventory searchInventory = new Inventory();
         searchInventory.setName(name);
         searchInventory.setColor(color);
@@ -65,6 +68,8 @@ public class WoolService {
         );
         return inventoryRepository.findAll(
                 this.getSpecForAmountsAndExample(
+                        intensityMin,
+                        intensityMax,
                         initialAmountMin,
                         initialAmountMax,
                         remainingAmountMin,
@@ -77,7 +82,39 @@ public class WoolService {
         ).getContent();
     }
 
+    public Inventory getInventoryById(Integer inventoryId) {
+        return inventoryRepository.findById(inventoryId).orElseThrow(() -> new InventoryNotFoundException("Inventory with id " + inventoryId + " could not be found"));
+    }
+
+    public Inventory createInventory(Inventory inventory) {
+        return this.saveInventoryWithId(null, inventory);
+    }
+
+    public Inventory updateInventory(Integer inventoryId, Inventory inventory) {
+        return this.saveInventoryWithId(inventoryId, inventory);
+    }
+
+    @Transactional
+    private Inventory saveInventoryWithId(Integer inventoryId, Inventory inventory) {
+        inventory.setId(inventoryId);
+        if (inventory.getImages() != null) {
+            inventoryImageRepository.deleteByInventoryId(inventoryId);
+            inventory.getImages().forEach(inventoryImage -> inventoryImage.setInventory(inventory));
+        }
+        if (inventory.getTags() != null) {
+            inventoryTagRepository.deleteByInventoryId(inventoryId);
+            inventory.getTags().forEach(inventoryTag -> inventoryTag.setInventory(inventory));
+        }
+        return inventoryRepository.save(inventory);
+    }
+
+    public void deleteInventory(Integer inventoryId) {
+        inventoryRepository.deleteById(inventoryId);
+    }
+
     private Specification<Inventory> getSpecForAmountsAndExample(
+            int intensityMin,
+            int intensityMax,
             int initialAmountMin,
             int initialAmountMax,
             int remainingAmountMin,
@@ -87,6 +124,15 @@ public class WoolService {
             Example<Inventory> example) {
         return (root, query, builder) -> {
             final List<Predicate> predicates = new ArrayList<>();
+            predicates.addAll(
+                    this.getPredicateForField(
+                            builder,
+                            root,
+                            "intensity",
+                            intensityMin,
+                            intensityMax
+                    )
+            );
             predicates.addAll(
                     this.getPredicateForField(
                             builder,
@@ -135,35 +181,5 @@ public class WoolService {
             predicates.add(builder.lessThanOrEqualTo(criteriaRoot.get(fieldName), maxValue));
         }
         return predicates;
-    }
-
-    public Inventory getInventoryById(Integer inventoryId) {
-        return inventoryRepository.findById(inventoryId).orElseThrow(IllegalAccessError::new);
-    }
-
-    public Inventory createInventory(Inventory inventory) {
-        return this.saveInventoryWithId(null, inventory);
-    }
-
-    public Inventory updateInventory(Integer inventoryId, Inventory inventory) {
-        return this.saveInventoryWithId(inventoryId, inventory);
-    }
-
-    @Transactional
-    private Inventory saveInventoryWithId(Integer inventoryId, Inventory inventory) {
-        inventory.setId(inventoryId);
-        if (inventory.getImages() != null) {
-            inventoryImageRepository.deleteByInventoryId(inventoryId);
-            inventory.getImages().forEach(inventoryImage -> inventoryImage.setInventory(inventory));
-        }
-        if (inventory.getTags() != null) {
-            inventoryTagRepository.deleteByInventoryId(inventoryId);
-            inventory.getTags().forEach(inventoryTag -> inventoryTag.setInventory(inventory));
-        }
-        return inventoryRepository.save(inventory);
-    }
-
-    public void deleteInventory(Integer inventoryId) {
-        inventoryRepository.deleteById(inventoryId);
     }
 }

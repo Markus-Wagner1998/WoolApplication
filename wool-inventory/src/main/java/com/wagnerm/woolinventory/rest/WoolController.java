@@ -3,7 +3,6 @@ package com.wagnerm.woolinventory.rest;
 import com.wagnerm.woolinventory.service.WoolService;
 import com.wagnerm.woolinventory.service.data.Inventory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +25,8 @@ public class WoolController {
                                           @RequestParam(name = "name", required = false) String name,
                                           @RequestParam(name = "color", required = false) String color,
                                           @RequestParam(name = "brand", required = false) String brand,
+                                          @RequestParam(name = "intensityMin", required = false, defaultValue = "-1") Integer intensityMin,
+                                          @RequestParam(name = "intensityMax", required = false, defaultValue = "-1") Integer intensityMax,
                                           @RequestParam(name = "initialAmountMin", required = false, defaultValue = "-1") int initialAmountMin,
                                           @RequestParam(name = "initialAmountMax", required = false, defaultValue = "-1") int initialAmountMax,
                                           @RequestParam(name = "remainingAmountMin", required = false, defaultValue = "-1") int remainingAmountMin,
@@ -41,6 +42,8 @@ public class WoolController {
                 name,
                 color,
                 brand,
+                intensityMin,
+                intensityMax,
                 initialAmountMin,
                 initialAmountMax,
                 remainingAmountMin,

@@ -4,12 +4,12 @@ import com.wagnerm.woolinventory.service.data.Inventory;
 import com.wagnerm.woolinventory.service.data.InventoryImage;
 import com.wagnerm.woolinventory.service.data.InventoryRepository;
 import com.wagnerm.woolinventory.service.data.InventoryTag;
+import com.wagnerm.woolinventory.service.error.InventoryNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
@@ -32,16 +32,16 @@ class WoolServiceTest {
     @BeforeEach
     void setup() {
         this.savedInventory = inventoryRepository.save(
-                new Inventory("wool1", "black", "brand1", 50, 40, 50)
+                new Inventory("wool1", "black", "brand1", 4, 50, 40, 50)
         );
         inventoryRepository.save(
-                new Inventory("wool2", "white", "brand1", 50, 40, 50)
+                new Inventory("wool2", "white", "brand1", 3, 50, 40, 50)
         );
         InventoryTag inventoryTag = new InventoryTag();
         inventoryTag.setTag("markus");
         InventoryImage inventoryImage = new InventoryImage();
         inventoryImage.setImageBase64("base1");
-        Inventory inventory = new Inventory("wool3", "white", "brand1", 70, 40, 50);
+        Inventory inventory = new Inventory("wool3", "white", "brand1", 2, 70, 40, 50);
         inventoryTag.setInventory(inventory);
         inventoryImage.setInventory(inventory);
         inventory.setImages(List.of(inventoryImage));
@@ -59,6 +59,8 @@ class WoolServiceTest {
                 "",
                 "",
                 "",
+                -1,
+                -1,
                 -1,
                 -1,
                 -1,
@@ -84,6 +86,8 @@ class WoolServiceTest {
                 -1,
                 -1,
                 -1,
+                -1,
+                -1,
                 -1
         );
         assertThat(retrievedInventories.size()).isEqualTo(2);
@@ -99,6 +103,8 @@ class WoolServiceTest {
                 "",
                 "",
                 "",
+                -1,
+                -1,
                 -1,
                 -1,
                 -1,
@@ -124,6 +130,8 @@ class WoolServiceTest {
                 -1,
                 -1,
                 -1,
+                -1,
+                -1,
                 -1
         );
         assertThat(retrievedInventories.size()).isEqualTo(2);
@@ -139,6 +147,8 @@ class WoolServiceTest {
                 "",
                 "",
                 "",
+                -1,
+                -1,
                 60,
                 80,
                 -1,
@@ -158,7 +168,7 @@ class WoolServiceTest {
     void getInventoryByIdNotFound() {
         assertThatThrownBy(() -> {
             this.woolService.getInventoryById(-999);
-        }).isInstanceOf(IllegalAccessError.class);
+        }).isInstanceOf(InventoryNotFoundException.class);
     }
 
     @Test
@@ -175,7 +185,7 @@ class WoolServiceTest {
         inventoryImage2.setImageBase64("base2");
         List<InventoryImage> inventoryImageList = List.of(inventoryImage, inventoryImage2);
 
-        Inventory inventory = new Inventory("wool2", "white", "brand1", 50, 40, 50);
+        Inventory inventory = new Inventory("wool2", "white", "brand1", 5, 50, 40, 50);
         inventory.setImages(inventoryImageList);
         inventory.setTags(inventoryTagList);
 
@@ -189,6 +199,7 @@ class WoolServiceTest {
         assertThat(retrievedInventory.getName()).isEqualTo("wool2");
         assertThat(retrievedInventory.getColor()).isEqualTo("white");
         assertThat(retrievedInventory.getBrand()).isEqualTo("brand1");
+        assertThat(retrievedInventory.getIntensity()).isEqualTo(5);
         assertThat(retrievedInventory.getInitialAmount()).isEqualTo(50);
         assertThat(retrievedInventory.getRemainingAmount()).isEqualTo(40);
         assertThat(retrievedInventory.getSingleAmount()).isEqualTo(50);
@@ -210,7 +221,7 @@ class WoolServiceTest {
         inventoryImage2.setImageBase64("base2");
         List<InventoryImage> inventoryImageList = List.of(inventoryImage, inventoryImage2);
 
-        Inventory inventory = new Inventory("wool2", "white", "brand1", 50, 40, 50);
+        Inventory inventory = new Inventory("wool2", "white", "brand1", 5, 50, 40, 50);
         inventory.setImages(inventoryImageList);
         inventory.setTags(inventoryTagList);
 
@@ -225,6 +236,7 @@ class WoolServiceTest {
         assertThat(retrievedInventory.getName()).isEqualTo("wool2");
         assertThat(retrievedInventory.getColor()).isEqualTo("white");
         assertThat(retrievedInventory.getBrand()).isEqualTo("brand1");
+        assertThat(retrievedInventory.getIntensity()).isEqualTo(5);
         assertThat(retrievedInventory.getInitialAmount()).isEqualTo(50);
         assertThat(retrievedInventory.getRemainingAmount()).isEqualTo(40);
         assertThat(retrievedInventory.getSingleAmount()).isEqualTo(50);
@@ -237,6 +249,6 @@ class WoolServiceTest {
         woolService.deleteInventory(savedInventory.getId());
         assertThatThrownBy(() -> {
             this.woolService.getInventoryById(savedInventory.getId());
-        }).isInstanceOf(IllegalAccessError.class);
+        }).isInstanceOf(InventoryNotFoundException.class);
     }
 }

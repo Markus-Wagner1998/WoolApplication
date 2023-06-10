@@ -37,16 +37,16 @@ class WoolControllerTest {
     @BeforeEach
     void setup() {
         this.savedInventory = inventoryRepository.save(
-                new Inventory("wool1", "black", "brand1", 50, 40, 50)
+                new Inventory("wool1", "black", "brand1", 5, 50, 40, 50)
         );
         inventoryRepository.save(
-                new Inventory("wool2", "white", "brand1", 50, 40, 50)
+                new Inventory("wool2", "white", "brand1", 4, 50, 40, 50)
         );
         InventoryTag inventoryTag = new InventoryTag();
         inventoryTag.setTag("markus");
         InventoryImage inventoryImage = new InventoryImage();
         inventoryImage.setImageBase64("base1");
-        Inventory inventory = new Inventory("wool2", "white", "brand1", 50, 40, 50);
+        Inventory inventory = new Inventory("wool2", "white", "brand1", 3, 50, 40, 50);
         inventoryTag.setInventory(inventory);
         inventoryImage.setInventory(inventory);
         inventory.setImages(List.of(inventoryImage));
@@ -72,6 +72,7 @@ class WoolControllerTest {
         assertThat(resultInventory.getName()).isEqualTo("wool1");
         assertThat(resultInventory.getColor()).isEqualTo("black");
         assertThat(resultInventory.getBrand()).isEqualTo("brand1");
+        assertThat(resultInventory.getIntensity()).isEqualTo(5);
         assertThat(resultInventory.getSingleAmount()).isEqualTo(50);
         assertThat(resultInventory.getInitialAmount()).isEqualTo(50);
         assertThat(resultInventory.getRemainingAmount()).isEqualTo(40);
@@ -81,7 +82,7 @@ class WoolControllerTest {
 
     @Test
     void createInventory() {
-        Inventory inventoryToSave = new Inventory("newWool", "newColor", "newBrand", 20, 30, 40);
+        Inventory inventoryToSave = new Inventory("newWool", "newColor", "newBrand", 0, 20, 30, 40);
         Inventory resultInventory =
                 testRestTemplate.postForObject(
                         "http://localhost:" + port + "/inventory",
@@ -92,6 +93,7 @@ class WoolControllerTest {
         assertThat(resultInventory.getName()).isEqualTo(inventoryToSave.getName());
         assertThat(resultInventory.getColor()).isEqualTo(inventoryToSave.getColor());
         assertThat(resultInventory.getBrand()).isEqualTo(inventoryToSave.getBrand());
+        assertThat(resultInventory.getIntensity()).isEqualTo(inventoryToSave.getIntensity());
         assertThat(resultInventory.getInitialAmount()).isEqualTo(inventoryToSave.getInitialAmount());
         assertThat(resultInventory.getRemainingAmount()).isEqualTo(inventoryToSave.getRemainingAmount());
         assertThat(resultInventory.getSingleAmount()).isEqualTo(inventoryToSave.getSingleAmount());
@@ -99,7 +101,7 @@ class WoolControllerTest {
 
     @Test
     void updateInventory() {
-        Inventory inventoryToSave = new Inventory("newWool", "newColor", "newBrand", 20, 30, 40);
+        Inventory inventoryToSave = new Inventory("newWool", "newColor", "newBrand", 0, 20, 30, 40);
         inventoryToSave.setId(savedInventory.getId());
         testRestTemplate.put("http://localhost:" + port + "/inventory/" + inventoryToSave.getId(), inventoryToSave);
         Inventory resultInventory =
@@ -111,6 +113,7 @@ class WoolControllerTest {
         assertThat(resultInventory.getName()).isEqualTo(inventoryToSave.getName());
         assertThat(resultInventory.getColor()).isEqualTo(inventoryToSave.getColor());
         assertThat(resultInventory.getBrand()).isEqualTo(inventoryToSave.getBrand());
+        assertThat(resultInventory.getIntensity()).isEqualTo(inventoryToSave.getIntensity());
         assertThat(resultInventory.getInitialAmount()).isEqualTo(inventoryToSave.getInitialAmount());
         assertThat(resultInventory.getRemainingAmount()).isEqualTo(inventoryToSave.getRemainingAmount());
         assertThat(resultInventory.getSingleAmount()).isEqualTo(inventoryToSave.getSingleAmount());

@@ -7,6 +7,7 @@ create table inventory (
     name varchar(255),
     color varchar(255),
     brand varchar(255),
+    intensity integer,
     initial_amount integer,
     remaining_amount integer,
     single_amount integer,

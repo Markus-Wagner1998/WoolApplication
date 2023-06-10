@@ -3,7 +3,6 @@ package com.wagnerm.woolinventory.service.data;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,6 +26,8 @@ public class Inventory {
     private String color;
     @Column(name = "brand")
     private String brand;
+    @Column(name="intensity")
+    private int intensity;
     @Column(name = "initial_amount")
     private int initialAmount;
     @Column(name = "remaining_amount")
@@ -38,10 +39,11 @@ public class Inventory {
     @OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<InventoryImage> images;
 
-    public Inventory(String name, String color, String brand, int initialAmount, int remainingAmount, int singleAmount) {
+    public Inventory(String name, String color, String brand, int intensity, int initialAmount, int remainingAmount, int singleAmount) {
         this.name = name;
         this.color = color;
         this.brand = brand;
+        this.intensity = intensity;
         this.initialAmount = initialAmount;
         this.remainingAmount = remainingAmount;
         this.singleAmount = singleAmount;
