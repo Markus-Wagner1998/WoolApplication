@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<div class="item-container" (click)="toggleExpanded()">
+    <img class="wool-image" [src]="getWoolImage()" alt="" srcset="">
+    <div class="wool-information">
+        <span class="item-name">{{wool.name}}</span>
+        <span>Dicke: {{wool.intensity}}</span>
+    </div>
+    <div class="wool-action">
+        <div class="wool-delete wool-button">
+            <span class="material-symbols-outlined">
+                delete
+            </span>
+        </div>
+    </div>
+</div>
+<div *ngIf="expanded" class="item-expansion">
+    <div class="item-expansion-properties">
+        <p class="item-property">Marke: {{wool.brand}}</p>
+        <p class="item-property">Farbe: {{wool.color}}</p>
+        <p class="item-property">Übrig: {{wool.remainingAmount}}</p>
+        <p class="item-property">Ursprünglich: {{wool.initialAmount}}</p>
+        <p class="item-property">Kneulmenge: {{wool.singleAmount}}</p>
+    </div>
+    <div class="wool-edit wool-button">
+        <span class="material-symbols-outlined">
+            edit
+        </span>
+    </div>
+</div>
