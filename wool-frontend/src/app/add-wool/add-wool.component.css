@@ -1,0 +1,103 @@
+
+.wool-add-container {
+    outline: 1px solid lightgrey;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.wool-add-heading {
+    background-color: lightskyblue;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    width: 100%;
+    border-bottom: solid 1px lightgrey;
+}
+
+.wool-heading-text {
+    font-size: 36px;
+    padding-left: 24px;
+}
+
+.wool-entry {
+    max-height: calc(90vh - 60px);
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 24px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+
+.create-input {
+    border: 1px solid grey;
+    border-radius: 5px;
+    height: 36px;
+}
+
+.create-input::placeholder {
+    color: lightskyblue;
+    vertical-align: baseline;
+    font-size: 16px;
+}
+
+.input-field {
+    display: flex;
+    flex-direction: column;
+    width: 800px;
+    max-width: 90%;
+}
+
+.input-label {
+    color: lightskyblue;
+    font-size: 20px;
+}
+
+.wool-create {
+    border: 1px solid lightskyblue;
+    border-radius: 5px;
+    background-color: lightskyblue;
+    height: 36px;
+    width: 200px;
+    cursor: pointer;
+}
+
+.button-region {
+    width: 800px;
+    max-width: 90%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.back-button {
+    display: flex;
+    border-radius: 50%;
+    border: solid 3px black;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    background-color: lightskyblue;
+    margin-right: 24px;
+}
+
+.image-input {
+    width: 240px;
+    height: 240px;
+}
+
+.wool-image {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}

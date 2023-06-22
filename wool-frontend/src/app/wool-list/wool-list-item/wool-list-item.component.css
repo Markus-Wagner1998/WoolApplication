@@ -2,15 +2,14 @@
     display: grid;
     grid-template-columns: 3fr 5fr 1fr;
     overflow: hidden;
-    height: 75px;
+    height: 125px;
     align-items: center;
 }
 
 .item-expansion {
-    height: 75px;
+    height: 100px;
     overflow: hidden;
-    border: 1px solid black;
-    border-radius: 5px;
+    background-color: rgb(238, 238, 238);
 }
 
 .item-expansion-properties {
@@ -19,6 +18,7 @@
     height: 100%;
     overflow: hidden;
     flex-direction: column;
+    margin-top: 10px;
 }
 
 .item-name {
@@ -27,7 +27,7 @@
 
 .wool-image {
     max-width: 100%;
-    max-height: 75px;
+    max-height: 125px;
 }
 
 .wool-information {
@@ -38,7 +38,7 @@
 }
 
 .item-property {
-    height: 24px;
+    height: 30px;
     width: 40%;
     margin: 0 5%;
 }
@@ -72,6 +72,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 /* * {

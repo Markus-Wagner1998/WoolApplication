@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<div class="wool-add-container">
+    <div class="wool-add-heading">
+        <div class="wool-heading-text">
+            Wolle hinzufügen
+        </div>
+        <a routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page">
+            <div class="back-button">
+                <span class="material-symbols-outlined">
+                    arrow_back
+                </span>
+            </div>
+        </a>
+    </div>
+    <form class="wool-entry" (ngSubmit)="submitForm()">
+        <div class="image-input">
+            <input #imageInput class="create-input" type='file' hidden (change)="storeImage($event)"/>
+            <img class="wool-image" [src]="getImageSource()" (click)="imageInput.click()"/>
+        </div>
+        <div class="input-field">
+            <span class="input-label">Name</span>
+            <input class="create-input" type="text" name="name" id="name" [(ngModel)]="wool.name">
+        </div>
+        <div class="input-field">
+            <span class="input-label">Farbe</span>
+            <input class="create-input" type="text" name="color" id="color" [(ngModel)]="wool.color">
+        </div>
+        <div class="input-field">
+            <span class="input-label">Marke</span>
+            <input class="create-input" type="text" name="brand" id="brand" [(ngModel)]="wool.brand">
+        </div>
+        <div class="input-field">
+            <span class="input-label">Stärke</span>
+            <input class="create-input" type="number" name="intensity" id="intensity" [(ngModel)]="wool.intensity">
+        </div>
+        <div class="input-field">
+            <span class="input-label">Ursprüngliche Menge</span>
+            <input class="create-input" type="number" name="initialAmount" id="initialAmount"
+                [(ngModel)]="wool.initialAmount">
+        </div>
+        <div class="input-field">
+            <span class="input-label">Übrige Menge</span>
+            <input class="create-input" type="number" name="remainingAmount" id="remainingAmount"
+                [(ngModel)]="wool.remainingAmount">
+        </div>
+        <div class="input-field">
+            <span class="input-label">Kneulmenge</span>
+            <input class="create-input" type="number" name="singleAmount" id="singleAmount" [(ngModel)]="wool.singleAmount">
+        </div>
+        <button class="wool-create" type="submit">{{getSubmitButtonText()}}</button>
+    </form>
+</div>

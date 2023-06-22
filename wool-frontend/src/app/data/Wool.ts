@@ -26,3 +26,11 @@ export class Wool {
         public images: InventoryImage[]
     ) {}
 }
+
+export class Image {
+    constructor(
+        public source: string,
+        public file: File | null,
+        public base64: string,
+    ) {}
+}

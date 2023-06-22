@@ -5,7 +5,7 @@
         <span class="item-name">{{wool.name}}</span>
         <span>Dicke: {{wool.intensity}}</span>
     </div>
-    <div class="wool-action">
+    <div class="wool-action" (click)="deleteWool($event)">
         <div class="wool-delete wool-button">
             <span class="material-symbols-outlined">
                 delete
@@ -21,7 +21,7 @@
         <p class="item-property">Ursprünglich: {{wool.initialAmount}}</p>
         <p class="item-property">Kneulmenge: {{wool.singleAmount}}</p>
     </div>
-    <div class="wool-edit wool-button">
+    <div class="wool-edit wool-button" (click)="editWool($event)">
         <span class="material-symbols-outlined">
             edit
         </span>

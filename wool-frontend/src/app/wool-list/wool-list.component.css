@@ -1,0 +1,43 @@
+.wool-list-container {
+    outline: 1px solid lightgrey;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.wool-list-heading {
+    background-color: lightskyblue;
+    height: 60px;
+    width: 100%;
+    font-size: 36px;
+    display: inline-flex;
+    align-items: center;
+    padding-left: 24px;
+    border-bottom: solid 1px lightgrey;
+}
+
+.wool-list {
+    max-height: calc(90vh - 60px);
+    overflow: auto;
+}
+
+.wool-list-item-container {
+    border-bottom: solid 1px lightgrey;
+}
+
+.wool-add-button {
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    left: 100%;
+    top: 100%;
+    transform: translate(-125%, -125%);
+    background-color: greenyellow;
+}
+
+div:last-child {
+    border-bottom: none;
+}

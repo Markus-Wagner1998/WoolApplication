@@ -14,10 +14,17 @@ export class WoolListComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.getWoolList();
+  }
+
+  handleElementDeleted() {
+    this.getWoolList();
+  }
+
+  private getWoolList(): void {
     this.http
       .get<Wool[]>('http://192.168.178.99:8080/inventory')
         .subscribe((data: Wool[]) => {
-          console.log(data);
           this.wools = data
         });
   }
