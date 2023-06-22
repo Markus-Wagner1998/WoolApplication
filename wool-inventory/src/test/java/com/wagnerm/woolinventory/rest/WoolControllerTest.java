@@ -1,11 +1,9 @@
 package com.wagnerm.woolinventory.rest;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.wagnerm.woolinventory.service.data.Inventory;
 import com.wagnerm.woolinventory.service.data.InventoryImage;
 import com.wagnerm.woolinventory.service.data.InventoryRepository;
 import com.wagnerm.woolinventory.service.data.InventoryTag;
-import com.wagnerm.woolinventory.util.CustomPageImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +80,7 @@ class WoolControllerTest {
 
     @Test
     void createInventory() {
-        Inventory inventoryToSave = new Inventory("newWool", "newColor", "newBrand", 0, 20, 30, 40);
+        Inventory inventoryToSave = new Inventory("newWool", "newColor", "newBrand", 10, 20, 30, 40);
         Inventory resultInventory =
                 testRestTemplate.postForObject(
                         "http://localhost:" + port + "/inventory",
@@ -101,7 +99,7 @@ class WoolControllerTest {
 
     @Test
     void updateInventory() {
-        Inventory inventoryToSave = new Inventory("newWool", "newColor", "newBrand", 0, 20, 30, 40);
+        Inventory inventoryToSave = new Inventory("newWool", "newColor", "newBrand", 1, 20, 30, 40);
         inventoryToSave.setId(savedInventory.getId());
         testRestTemplate.put("http://localhost:" + port + "/inventory/" + inventoryToSave.getId(), inventoryToSave);
         Inventory resultInventory =

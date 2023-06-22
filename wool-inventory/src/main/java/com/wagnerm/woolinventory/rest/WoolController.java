@@ -2,15 +2,14 @@ package com.wagnerm.woolinventory.rest;
 
 import com.wagnerm.woolinventory.service.WoolService;
 import com.wagnerm.woolinventory.service.data.Inventory;
-import com.wagnerm.woolinventory.service.error.InventoryNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:4200", "http://192.168.178.99:4200"})
 @RequestMapping("/inventory")
 public class WoolController {
     private final WoolService woolService;
@@ -62,12 +61,12 @@ public class WoolController {
     }
 
     @PostMapping()
-    public Inventory createInventory(@RequestBody Inventory inventory) {
+    public Inventory createInventory(@Valid @RequestBody Inventory inventory) {
         return this.woolService.createInventory(inventory);
     }
 
     @PutMapping("/{inventoryId}")
-    public Inventory updateInventory(@PathVariable("inventoryId") Integer inventoryId, @RequestBody Inventory inventory) {
+    public Inventory updateInventory(@PathVariable("inventoryId") Integer inventoryId, @Valid @RequestBody Inventory inventory) {
         return woolService.updateInventory(inventoryId, inventory);
     }
 

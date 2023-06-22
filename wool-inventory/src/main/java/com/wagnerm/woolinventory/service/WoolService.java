@@ -83,7 +83,9 @@ public class WoolService {
     }
 
     public Inventory getInventoryById(Integer inventoryId) {
-        return inventoryRepository.findById(inventoryId).orElseThrow(() -> new InventoryNotFoundException("Inventory with id " + inventoryId + " could not be found"));
+        return inventoryRepository.findById(inventoryId).orElseThrow(
+                () -> new InventoryNotFoundException("Inventory with id " + inventoryId + " could not be found")
+        );
     }
 
     public Inventory createInventory(Inventory inventory) {
