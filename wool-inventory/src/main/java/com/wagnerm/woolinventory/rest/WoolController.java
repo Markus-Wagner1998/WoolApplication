@@ -74,5 +74,4 @@ public class WoolController {
     public void deleteInventory(@PathVariable("inventoryId") Integer inventoryId) {
         woolService.deleteInventory(inventoryId);
     }
-
 }
