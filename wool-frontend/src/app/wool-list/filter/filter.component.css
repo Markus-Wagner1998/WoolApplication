@@ -1,11 +1,10 @@
-
-.wool-add-container {
+.wool-filter-container {
     outline: 1px solid lightgrey;
     border-radius: 5px;
     overflow: hidden;
 }
 
-.wool-add-heading {
+.wool-filter-heading {
     background-color: lightskyblue;
     display: inline-flex;
     align-items: center;
@@ -31,10 +30,23 @@
     padding-bottom: 24px;
 }
 
-.create-input {
+.dual-row {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+}
+
+.filter-input {
     border: 1px solid grey;
     border-radius: 5px;
     height: 36px;
+}
+
+.filter-input-half {
+    border: 1px solid grey;
+    border-radius: 5px;
+    height: 36px;
+    width: 50%;
 }
 
 .create-input::placeholder {
@@ -43,8 +55,13 @@
     font-size: 16px;
 }
 
+.filter-input-half::placeholder {
+    color: lightskyblue;
+    vertical-align: baseline;
+    font-size: 16px;
+}
+
 .input-field {
-    position: relative;
     display: flex;
     flex-direction: column;
     width: 800px;
@@ -56,7 +73,14 @@
     font-size: 20px;
 }
 
-.wool-create {
+.button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+}
+
+.wool-filter {
     border: 1px solid lightskyblue;
     border-radius: 5px;
     background-color: lightskyblue;
@@ -65,11 +89,13 @@
     cursor: pointer;
 }
 
-.button-region {
-    width: 800px;
-    max-width: 90%;
-    display: flex;
-    justify-content: space-between;
+.wool-cancel {
+    border: 1px solid red;
+    border-radius: 5px;
+    background-color: red;
+    width: 200px;
+    line-height: 36px;
+    cursor: pointer;
 }
 
 .back-button {
@@ -83,18 +109,6 @@
     color: black
 }
 
-.image-input {
-    width: 240px;
-    height: 240px;
-}
-
-.wool-image {
-    height: 100%;
-    width: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
 a {
     text-decoration: none;
 }
@@ -104,25 +118,13 @@ a:visited {
 }
 
 @media only screen and (min-width: 1024px) {
-    .wool-add-outer {
+    .wool-filter-outer {
         display: flex;
         justify-content: center;
         width: 100%;
     }
 
-    .wool-add-container {
+    .wool-filter-container {
         width: 80%;
-    }
-
-    .wool-entry-container {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-
-    .wool-entry {
-        width: 100%;
-        align-items: center;
-        flex-direction: column;
     }
 }

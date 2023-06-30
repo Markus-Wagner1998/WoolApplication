@@ -15,11 +15,16 @@
 </div>
 <div *ngIf="expanded" class="item-expansion">
     <div class="item-expansion-properties">
-        <p class="item-property">Marke: {{wool.brand}}</p>
-        <p class="item-property">Farbe: {{wool.color}}</p>
-        <p class="item-property">Übrig: {{wool.remainingAmount}}</p>
-        <p class="item-property">Ursprünglich: {{wool.initialAmount}}</p>
-        <p class="item-property">Kneulmenge: {{wool.singleAmount}}</p>
+        <p class="item-property-label">Marke:</p>
+        <p class="item-property">{{wool.brand}}</p>
+        <p class="item-property-label">Farbe:</p>
+        <p class="item-property">{{wool.color}}</p>
+        <p class="item-property-label">Übrig:</p>
+        <p class="item-property">{{wool.remainingAmount}}</p>
+        <p class="item-property-label">Ursprünglich:</p>
+        <p class="item-property">{{wool.initialAmount}}</p>
+        <p class="item-property-label">Knäuelmenge:</p>
+        <p class="item-property">{{wool.singleAmount}}</p>
     </div>
     <div class="wool-edit wool-button" (click)="editWool($event)">
         <span class="material-symbols-outlined">
@@ -27,3 +32,4 @@
         </span>
     </div>
 </div>
+<!-- <app-infobox type="info" headline="Delete Item" text="Do you really want to delete this item?"></app-infobox> -->

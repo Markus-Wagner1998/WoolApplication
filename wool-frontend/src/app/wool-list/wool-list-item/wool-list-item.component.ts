@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Wool } from 'src/app/data/Wool';
+import { DialogService } from 'src/app/service/dialog.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-wool-list-item',
@@ -15,7 +17,11 @@ export class WoolListItemComponent {
   elementDeletedEmitter: EventEmitter<void> = new EventEmitter();
   expanded: boolean = false;
 
-  constructor(private readonly http: HttpClient, private router: Router) {}
+  constructor(
+    private readonly http: HttpClient, 
+    private readonly router: Router, 
+    private dialogService: DialogService
+  ) { }
 
   toggleExpanded() {
     this.expanded = !this.expanded;
@@ -29,23 +35,36 @@ export class WoolListItemComponent {
   }
 
   deleteWool(event: Event): void {
-    this.http.delete<Wool>('http://192.168.178.99:8080/inventory/' + this.wool.id)
-      .subscribe(() => {
-        this.elementDeletedEmitter.next();
-      });
+    this.dialogService.openDialog({
+      headline: 'Delete this item',
+      text: 'Deleting this item is permanent. Do you want to continue?',
+      type: 'info',
+    });
+    this.dialogService.dialogComponentRef!.instance.onYesClick.subscribe(() => {
+      const inventoryUrl = environment.apiUrl + '/inventory/';
+      this.http.delete<Wool>(inventoryUrl + this.wool.id)
+        .subscribe(() => {
+          this.elementDeletedEmitter.next();
+        });
+      this.dialogService.closeDialog();
+    });
+
+    this.dialogService.dialogComponentRef!.instance.onNoClick.subscribe(() => {
+      this.dialogService.closeDialog();
+    });
     event.stopPropagation();
   }
 
   editWool(event: Event): void {
-      this.router.navigate(
-        ['add'],
-        {
-          queryParams: {
-            inventoryId: this.wool.id,
-          },
-          queryParamsHandling: 'merge',
+    this.router.navigate(
+      ['add'],
+      {
+        queryParams: {
+          inventoryId: this.wool.id,
         },
-      );
+        queryParamsHandling: 'merge',
+      },
+    );
     event.stopPropagation();
   }
 }

@@ -1,7 +1,24 @@
-<div>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<div class="outer-container">
     <div class="wool-list-container">
         <div class="wool-list-heading">
-            Wolle
+            <span class="wool-list-heading-text">Wolle</span>
+            <div class="wool-list-buttons">
+                <a routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page"  [queryParams]="{}" queryParamsHandling="">
+                    <div class="wool-filter-button">
+                        <span class="material-symbols-outlined">
+                            filter_list_off
+                        </span>
+                    </div>
+                </a>
+                <a routerLink="/filter" routerLinkActive="active" ariaCurrentWhenActive="page" queryParamsHandling="preserve">
+                    <div class="wool-filter-button">
+                        <span class="material-symbols-outlined">
+                            filter_alt
+                        </span>
+                    </div>
+                </a>
+            </div>
         </div>
         <div class="wool-list">
             <div class="wool-list-item-container" *ngFor="let wool of wools">
@@ -17,3 +34,4 @@
         </div>
     </a>
 </div>
+<app-loading-spinner *ngIf="loading"></app-loading-spinner>

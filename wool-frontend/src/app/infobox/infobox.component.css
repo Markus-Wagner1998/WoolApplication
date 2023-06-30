@@ -1,0 +1,95 @@
+.whole-page {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: white;
+    filter: brightness(40%);
+    opacity: 90%;
+}
+
+.infobox {
+    z-index: 20;
+    opacity: 100%;
+    filter: none;
+    width: 400px;
+    max-width: 80%;
+    height: 140px;
+    max-height: 80%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;;
+}
+
+.headline {
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.alert {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+}
+
+.error {
+    color: red;
+}
+
+.warn {
+    color: yellow;
+}
+
+.info {
+    color: lightskyblue;
+}
+
+.text {
+    text-align: center;
+}
+
+.right-space {
+    width: 48px;
+}
+
+.button-region {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.button {
+    width: 80px;
+    height: 36px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;;
+}
+
+.ok {
+    background-color: lightskyblue;
+}
+
+.cancel {
+    background-color: rgb(248, 112, 112);
+}

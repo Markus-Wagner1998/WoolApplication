@@ -18,12 +18,28 @@ export class Wool {
         public name: string, 
         public color: string, 
         public brand: string, 
-        public intensity: number, 
-        public initialAmount: number, 
-        public remainingAmount: number, 
-        public singleAmount: number, 
+        public intensity: number | undefined, 
+        public initialAmount: number | undefined, 
+        public remainingAmount: number | undefined, 
+        public singleAmount: number | undefined, 
         public tags: InventoryTag[], 
         public images: InventoryImage[]
+    ) {}
+}
+
+export class WoolFilter {
+    constructor(
+        public name: string | undefined, 
+        public color: string | undefined, 
+        public brand: string | undefined, 
+        public intensityMin: number | undefined, 
+        public intensityMax: number | undefined, 
+        public initialAmountMin: number | undefined, 
+        public initialAmountMax: number | undefined, 
+        public remainingAmountMin: number | undefined, 
+        public remainingAmountMax: number | undefined, 
+        public singleAmountMin: number | undefined, 
+        public singleAmountMax: number | undefined, 
     ) {}
 }
 

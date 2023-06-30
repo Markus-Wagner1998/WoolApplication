@@ -1,0 +1,67 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<div class="wool-filter-outer">
+    <div class="wool-filter-container">
+        <div class="wool-filter-heading">
+            <a routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page" queryParamsHandling="preserve">
+                <div class="back-button">
+                    <span class="material-symbols-outlined">
+                        arrow_back
+                    </span>
+                </div>
+            </a>
+            <div class="wool-heading-text">
+                Filter
+            </div>
+        </div>
+        <form class="wool-entry" (ngSubmit)="navigateToList()" >
+            <div class="input-field">
+                <span class="input-label">Name</span>
+                <input class="filter-input" type="text" name="name" id="name" [(ngModel)]="woolFilter.name">
+            </div>
+            <div class="input-field">
+                <span class="input-label">Farbe</span>
+                <input class="filter-input" type="text" name="color" id="color" [(ngModel)]="woolFilter.color">
+            </div>
+            <div class="input-field">
+                <span class="input-label">Marke</span>
+                <input class="filter-input" type="text" name="brand" id="brand" [(ngModel)]="woolFilter.brand">
+            </div>
+            <div class="input-field">
+                <span class="input-label">Stärke</span>
+                <div class="dual-row">
+                    <input class="filter-input-half" type="number" name="minIntensity" id="minIntensity" [(ngModel)]="woolFilter.intensityMin" placeholder="Min">
+                    <input class="filter-input-half" type="number" name="maxIntensity" id="maxIntensity" [(ngModel)]="woolFilter.intensityMax" placeholder="Max">
+                </div>
+            </div>
+            <div class="input-field">
+                <span class="input-label">Ursprüngliche Menge</span>
+                <div class="dual-row">
+                    <input class="filter-input-half" type="number" name="minInitialAmount" id="minInitialAmount"
+                        [(ngModel)]="woolFilter.initialAmountMin" placeholder="Min">
+                    <input class="filter-input-half" type="number" name="maxInitialAmount" id="maxInitialAmount"
+                        [(ngModel)]="woolFilter.initialAmountMax" placeholder="Max">
+                </div>
+            </div>
+            <div class="input-field">
+                <span class="input-label">Übrige Menge</span>
+                <div class="dual-row">
+                    <input class="filter-input-half" type="number" name="minRemainingAmount" id="minRemainingAmount"
+                        [(ngModel)]="woolFilter.remainingAmountMin" placeholder="Min">
+                    <input class="filter-input-half" type="number" name="maxRemainingAmount" id="maxRemainingAmount"
+                        [(ngModel)]="woolFilter.remainingAmountMax" placeholder="Max">
+                </div>
+            </div>
+            <div class="input-field">
+                <span class="input-label">Knäuelmenge</span>
+                <div class="dual-row">
+                    <input class="filter-input-half" type="number" name="minSingleAmount" id="minSingleAmount" [(ngModel)]="woolFilter.singleAmountMin" placeholder="Min">
+                    <input class="filter-input-half" type="number" name="maxSingleAmount" id="maxSingleAmount" [(ngModel)]="woolFilter.singleAmountMax" placeholder="Max">
+                </div>
+            </div>
+            <div class="button-container">
+                <button type="submit" class="wool-filter">Filter übernehmen</button>
+                <button type="reset" class="wool-cancel" (click)="resetFilters()">Filter zurücksetzen</button>
+            </div>
+        </form>
+    </div>
+</div>

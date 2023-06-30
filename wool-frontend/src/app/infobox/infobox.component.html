@@ -1,0 +1,44 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<div class="whole-page">
+</div>
+<div class="infobox">
+    <div class="headline info" *ngIf="type === 'info'">
+        {{headline}}
+    </div>
+    <div class="headline warn" *ngIf="type === 'warn'">
+        {{headline}}
+    </div>
+    <div class="headline error" *ngIf="type === 'error'">
+        {{headline}}
+    </div>
+    <div class="content">
+        <div class="alert info" *ngIf="type === 'info'">
+            <span class="material-symbols-outlined">
+                info
+            </span>
+        </div>
+        <div class="alert warn" *ngIf="type === 'warn'">
+            <span class="material-symbols-outlined">
+                warning
+            </span>
+        </div>
+        <div class="alert error" *ngIf="type === 'error'">
+            <span class="material-symbols-outlined">
+                error
+            </span>
+        </div>
+        <div class="text">
+            {{text}}
+        </div>
+        <div class="right-space">
+        </div>
+    </div>
+    <div class="button-region">
+        <div class="button ok" (click)="onYesClick.emit()">
+            OK
+        </div>
+        <div class="button cancel" (click)="onNoClick.emit()">
+            Abbrechen
+        </div>
+    </div>
+</div>

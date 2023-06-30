@@ -1,0 +1,12 @@
+<div class="wrapper" >
+    <input class="create-input" type="text" [(ngModel)]="data" (focus)="showAutocomplete=true"
+        (ngModelChange)="onInput()" (blur)="removeAutocomplete()">
+    <div [hidden]="!showAutocomplete || autocompleteOptions.length === 0" class="autocomplete-wrapper">
+        <datalist>
+            <option class="autocomplete-list-item" *ngFor="let option of autocompleteOptions"
+                (click)="onOptionClick(option)" [value]="option">
+                {{option}}
+            </option>
+        </datalist>
+    </div>
+</div>

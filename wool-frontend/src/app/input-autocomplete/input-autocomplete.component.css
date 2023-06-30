@@ -1,0 +1,54 @@
+.wrapper {
+    position: relative;
+}
+
+.create-input {
+    border: 1px solid grey;
+    border-radius: 5px;
+    height: 40px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.create-input::placeholder {
+    color: lightskyblue;
+    vertical-align: baseline;
+    font-size: 16px;
+}
+
+.autocomplete-wrapper {
+    position: absolute;
+    top: 100%;
+    z-index: 10;
+    width: 100%;
+    max-height: 100px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    overflow: auto;
+}
+
+.autocomplete-list-item {
+    background-color: white;
+    border-bottom: 1px solid grey;
+    width: 100%;
+    height: 32px;
+    padding-left: 8px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    z-index: 20;
+}
+
+.autocomplete-list-item:hover {
+    background-color: lightgrey;
+    cursor: pointer;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 0;
+}
+
+datalist {
+    display: block;
+}

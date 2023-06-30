@@ -2,6 +2,7 @@
     outline: 1px solid lightgrey;
     border-radius: 5px;
     overflow: hidden;
+    width: 100%;
 }
 
 .wool-list-heading {
@@ -9,10 +10,14 @@
     height: 60px;
     width: 100%;
     font-size: 36px;
-    display: inline-flex;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    padding-left: 24px;
     border-bottom: solid 1px lightgrey;
+}
+
+.wool-list-heading-text {
+    margin-left: 12px;
 }
 
 .wool-list {
@@ -20,8 +25,22 @@
     overflow: auto;
 }
 
+.wool-list-buttons {
+    display: flex;
+}
+
 .wool-list-item-container {
     border-bottom: solid 1px lightgrey;
+}
+
+.wool-filter-button {
+    width: 36px;
+    height: 36px;
+    color: black;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .wool-add-button {
@@ -35,9 +54,30 @@
     left: 100%;
     top: 100%;
     transform: translate(-125%, -125%);
-    background-color: greenyellow;
+    background-color: lightskyblue;
+    color: black;
 }
 
 div:last-child {
     border-bottom: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+@media only screen and (min-width: 1024px) {
+    .outer-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .wool-list-container {
+        max-width: 80%;
+    }
+    
+    .wool-add-button {
+        left: 90%;
+    }
 }
