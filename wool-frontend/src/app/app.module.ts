@@ -12,6 +12,7 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
 import { FilterComponent } from './wool-list/filter/filter.component';
 import { InfoboxComponent } from './infobox/infobox.component';
 import { InputAutocompleteComponent } from './input-autocomplete/input-autocomplete.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { InputAutocompleteComponent } from './input-autocomplete/input-autocompl
     LoadingSpinnerComponent,
     FilterComponent,
     InfoboxComponent,
-    InputAutocompleteComponent
+    InputAutocompleteComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

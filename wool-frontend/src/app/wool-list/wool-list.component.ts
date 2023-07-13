@@ -56,7 +56,7 @@ export class WoolListComponent implements OnInit{
 
   private getWoolList(): void {
     this.loading = true;
-    const inventoryUrl = environment.apiUrl + '/inventory';
+    const inventoryUrl = '/api/inventory';
     const params = {
       params: this.getHttpParams(), 
     }
