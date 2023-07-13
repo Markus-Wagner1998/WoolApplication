@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/data")
+@RequestMapping("/api/data")
 @RequiredArgsConstructor
 public class DataController {
     private final DataService dataService;
