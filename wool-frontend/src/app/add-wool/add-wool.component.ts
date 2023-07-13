@@ -27,7 +27,7 @@ export class AddWoolComponent implements OnInit{
   constructor(private readonly http: HttpClient, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
-    const inventoryUrl = environment.apiUrl + '/inventory/';
+    const inventoryUrl = '/api/inventory/';
     this.route.queryParams.subscribe(
       params => {
         if (params['inventoryId']) {
@@ -94,7 +94,7 @@ export class AddWoolComponent implements OnInit{
   }
 
   private createWool(): void {
-    const inventoryUrl = environment.apiUrl + '/inventory';
+    const inventoryUrl = '/api/inventory';
     this.http.post<Wool>(inventoryUrl, this.wool)
       .subscribe((data: Wool) => {
         this.wool = data;
@@ -108,7 +108,7 @@ export class AddWoolComponent implements OnInit{
   }
 
   private updateWool(): void {
-    const inventoryUrl = environment.apiUrl + '/inventory/';
+    const inventoryUrl = '/api/inventory/';
     this.http.put<Wool>(inventoryUrl + this.wool.id, this.wool)
       .subscribe((data: Wool) => {
         this.wool = data;

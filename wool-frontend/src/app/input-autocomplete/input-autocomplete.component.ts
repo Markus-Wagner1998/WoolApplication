@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-input-autocomplete',
@@ -21,7 +20,7 @@ export class InputAutocompleteComponent {
   }
 
   onInput() {
-    const dataUrl = environment.apiUrl + '/data/';
+    const dataUrl = '/api/data/';
     if (this.dataType && this.data) {
       this.http.get<string[]>(dataUrl + this.dataType + '/' + this.data)
         .subscribe((returnData?: string[]) => {
@@ -29,6 +28,8 @@ export class InputAutocompleteComponent {
             this.autocompleteOptions = returnData;
           }
         });
+    } else {
+      this.autocompleteOptions = [];
     }
     this.dataChange.emit(this.data);
   }

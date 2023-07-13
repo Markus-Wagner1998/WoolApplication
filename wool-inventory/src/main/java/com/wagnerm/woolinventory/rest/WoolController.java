@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200", "http://192.168.178.99:4200"})
 @RequestMapping("/inventory")
 public class WoolController {
     private final WoolService woolService;

@@ -24,7 +24,7 @@
             </div>
             <div class="input-field">
                 <span class="input-label">Marke</span>
-                <input class="filter-input" type="text" name="brand" id="brand" [(ngModel)]="woolFilter.brand">
+                <app-input-autocomplete [(data)]="woolFilter.brand" dataType="brand" name="brand" id="brand"></app-input-autocomplete>
             </div>
             <div class="input-field">
                 <span class="input-label">Stärke</span>

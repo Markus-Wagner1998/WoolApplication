@@ -3,7 +3,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Wool } from 'src/app/data/Wool';
 import { DialogService } from 'src/app/service/dialog.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-wool-list-item',
@@ -36,12 +35,12 @@ export class WoolListItemComponent {
 
   deleteWool(event: Event): void {
     this.dialogService.openDialog({
-      headline: 'Delete this item',
-      text: 'Deleting this item is permanent. Do you want to continue?',
+      headline: 'Eintrag löschen',
+      text: 'Das Löschen des Eintrags ist dauerhaft. Fortfahren?',
       type: 'info',
     });
     this.dialogService.dialogComponentRef!.instance.onYesClick.subscribe(() => {
-      const inventoryUrl = environment.apiUrl + '/inventory/';
+      const inventoryUrl = '/api/inventory/';
       this.http.delete<Wool>(inventoryUrl + this.wool.id)
         .subscribe(() => {
           this.elementDeletedEmitter.next();
