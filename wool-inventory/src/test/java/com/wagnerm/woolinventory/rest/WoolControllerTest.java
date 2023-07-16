@@ -1,5 +1,8 @@
 package com.wagnerm.woolinventory.rest;
 
+import com.wagnerm.woolinventory.security.data.User;
+import com.wagnerm.woolinventory.security.data.UserRepository;
+import com.wagnerm.woolinventory.security.jwt.JwtService;
 import com.wagnerm.woolinventory.service.data.Inventory;
 import com.wagnerm.woolinventory.service.data.InventoryImage;
 import com.wagnerm.woolinventory.service.data.InventoryRepository;
@@ -11,6 +14,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
@@ -32,6 +39,14 @@ class WoolControllerTest {
     @Autowired
     private InventoryRepository inventoryRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private JwtService jwtService;
+
+    private String authToken;
+
     @BeforeEach
     void setup() {
         this.savedInventory = inventoryRepository.save(
@@ -50,21 +65,38 @@ class WoolControllerTest {
         inventory.setImages(List.of(inventoryImage));
         inventory.setTags(List.of(inventoryTag));
         inventoryRepository.save(inventory);
+
+        User testUser = new User();
+        testUser.setEmail("test@test.de");
+        testUser.setPassword("test");
+        testUser.setFirstName("Markus");
+        testUser.setLastName("Wagner");
+
+        authToken = jwtService.generateToken(userRepository.save(testUser));
     }
 
     @Test
     void getInventories() {
-        List<Inventory> resultList = testRestTemplate.getForObject("http://localhost:" + port + "/inventory", List.class);
-        assertThat(resultList.size()).isEqualTo(3);
+        ResponseEntity<List> res = testRestTemplate.exchange(
+                "http://localhost:" + port + "/api/inventory", HttpMethod.GET, new HttpEntity<>(null, getAuthHeader()),
+                List.class
+        );
+        assertThat(res.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(res.hasBody()).isTrue();
+        assertThat(res.getBody().size()).isEqualTo(3);
     }
 
     @Test
     void getInventoryById() {
-        Inventory resultInventory =
-                testRestTemplate.getForObject(
-                        "http://localhost:" + port + "/inventory/" + savedInventory.getId(),
-                        Inventory.class
-                );
+        ResponseEntity<Inventory> res = testRestTemplate.exchange(
+                "http://localhost:" + port + "/api/inventory/" + savedInventory.getId(),
+                HttpMethod.GET,
+                new HttpEntity<>(null, getAuthHeader()),
+                Inventory.class
+        );
+        assertThat(res.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(res.hasBody()).isTrue();
+        Inventory resultInventory = res.getBody();
         assertThat(resultInventory).isNotNull();
         assertThat(resultInventory.getId()).isEqualTo(savedInventory.getId());
         assertThat(resultInventory.getName()).isEqualTo("wool1");
@@ -81,12 +113,15 @@ class WoolControllerTest {
     @Test
     void createInventory() {
         Inventory inventoryToSave = new Inventory("newWool", "newColor", "newBrand", 10, 20, 30, 40);
-        Inventory resultInventory =
-                testRestTemplate.postForObject(
-                        "http://localhost:" + port + "/inventory",
-                        inventoryToSave,
-                        Inventory.class
-                );
+        ResponseEntity<Inventory> res = testRestTemplate.exchange(
+                "http://localhost:" + port + "/api/inventory",
+                HttpMethod.POST,
+                new HttpEntity<>(inventoryToSave, getAuthHeader()),
+                Inventory.class
+        );
+        assertThat(res.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(res.hasBody()).isTrue();
+        Inventory resultInventory = res.getBody();
         assertThat(resultInventory).isNotNull();
         assertThat(resultInventory.getName()).isEqualTo(inventoryToSave.getName());
         assertThat(resultInventory.getColor()).isEqualTo(inventoryToSave.getColor());
@@ -101,12 +136,15 @@ class WoolControllerTest {
     void updateInventory() {
         Inventory inventoryToSave = new Inventory("newWool", "newColor", "newBrand", 1, 20, 30, 40);
         inventoryToSave.setId(savedInventory.getId());
-        testRestTemplate.put("http://localhost:" + port + "/inventory/" + inventoryToSave.getId(), inventoryToSave);
-        Inventory resultInventory =
-                testRestTemplate.getForObject(
-                        "http://localhost:" + port + "/inventory/" + savedInventory.getId(),
-                        Inventory.class
-                );
+        ResponseEntity<Inventory> res = testRestTemplate.exchange(
+                "http://localhost:" + port + "/api/inventory/" + inventoryToSave.getId(),
+                HttpMethod.PUT,
+                new HttpEntity<>(inventoryToSave, getAuthHeader()),
+                Inventory.class
+        );
+        assertThat(res.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(res.hasBody()).isTrue();
+        Inventory resultInventory = res.getBody();
         assertThat(resultInventory).isNotNull();
         assertThat(resultInventory.getName()).isEqualTo(inventoryToSave.getName());
         assertThat(resultInventory.getColor()).isEqualTo(inventoryToSave.getColor());
@@ -119,9 +157,26 @@ class WoolControllerTest {
 
     @Test
     void deleteInventory() {
-        testRestTemplate.delete("http://localhost:" + port + "/inventory/" + savedInventory.getId());
-        List<Inventory> resultList = testRestTemplate.getForObject("http://localhost:" + port + "/inventory", List.class);
-        assertThat(resultList.size()).isEqualTo(2);
+        ResponseEntity<String> res = testRestTemplate.exchange(
+                "http://localhost:" + port + "/api/inventory/" + savedInventory.getId(),
+                HttpMethod.DELETE,
+                new HttpEntity<>(null, getAuthHeader()),
+                String.class
+        );
+        assertThat(res.getStatusCode().is2xxSuccessful()).isTrue();
+        ResponseEntity<List> resultListEntity = testRestTemplate.exchange(
+                "http://localhost:" + port + "/api/inventory", HttpMethod.GET, new HttpEntity<>(null, getAuthHeader()),
+                List.class
+        );
+        assertThat(resultListEntity.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(resultListEntity.hasBody()).isTrue();
+        assertThat(resultListEntity.getBody().size()).isEqualTo(2);
+    }
+
+    private HttpHeaders getAuthHeader() {
+        HttpHeaders authHeaders = new HttpHeaders();
+        authHeaders.add("Authorization", "Bearer " + authToken);
+        return authHeaders;
     }
 
 }

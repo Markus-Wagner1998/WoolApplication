@@ -46,3 +46,14 @@ create table instruction_images (
     primary key (image_id),
     foreign key (instruction_id) references instructions(id) on delete cascade on update cascade
 );
+
+-- User Creation
+create table USER (
+	id integer auto_increment,
+    first_name varchar(100),
+    last_name varchar(100),
+    email varchar(255),
+    password varchar(100),
+    primary key(id),
+    unique(email)
+);
