@@ -1,8 +1,8 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Wool, WoolFilter } from '../data/Wool';
-import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 @Component({
   selector: 'app-wool-list',
@@ -26,7 +26,9 @@ export class WoolListComponent implements OnInit{
   };
   loading: boolean = true;
 
-  constructor(private readonly http: HttpClient, 
+  constructor(
+    public readonly authenticationService: AuthenticationService,
+    private readonly http: HttpClient, 
     private readonly route: ActivatedRoute) {
   }
 

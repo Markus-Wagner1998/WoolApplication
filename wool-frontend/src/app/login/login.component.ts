@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthenticationService } from '../authentication/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -6,12 +8,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.css', '../app.component.css']
 })
 export class LoginComponent {
-  username: string = '';
+  email: string = '';
   password: string = '';
 
-  submitLogin(): void {
-    console.log("Logging in: ", this.username, this.password)
-  }
-
+  constructor(public authenticationService: AuthenticationService) {}
 
 }

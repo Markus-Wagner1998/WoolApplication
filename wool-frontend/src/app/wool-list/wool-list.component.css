@@ -18,6 +18,11 @@
 
 .wool-list-heading-text {
     margin-left: 12px;
+    margin-right: 12px;
+}
+
+.logout-button {
+    cursor: pointer;
 }
 
 .wool-list {

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,6 +13,7 @@ import { FilterComponent } from './wool-list/filter/filter.component';
 import { InfoboxComponent } from './infobox/infobox.component';
 import { InputAutocompleteComponent } from './input-autocomplete/input-autocomplete.component';
 import { LoginComponent } from './login/login.component';
+import { JwtAuthInterceptor } from './authentication/jwt.auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,11 @@ import { LoginComponent } from './login/login.component';
     HttpClientModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: JwtAuthInterceptor,
+    multi: true,
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
