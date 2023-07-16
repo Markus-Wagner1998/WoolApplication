@@ -8,6 +8,7 @@ import { Subject, catchError } from 'rxjs';
 })
 export class AuthenticationService {
   loginSuccess: Subject<boolean> = new Subject();
+  signupSuccess: Subject<boolean> = new Subject();
   jwtToken: string = '';
 
   constructor(private readonly http: HttpClient, private readonly router: Router) { }
@@ -21,9 +22,13 @@ export class AuthenticationService {
         email: email,
         password: password
       }
-    ).subscribe((data) => {
-      this.jwtToken = data.token;
-      this.router.navigate(['/']);
+    ).subscribe({
+      next: (data) => {
+        this.jwtToken = data.token;
+        this.signupSuccess.next(true);
+        this.router.navigate(['/']);
+      },
+      error: (error) => this.signupSuccess.next(false),
     });
   }
 

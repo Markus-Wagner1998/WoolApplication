@@ -14,6 +14,7 @@ import { InfoboxComponent } from './infobox/infobox.component';
 import { InputAutocompleteComponent } from './input-autocomplete/input-autocomplete.component';
 import { LoginComponent } from './login/login.component';
 import { JwtAuthInterceptor } from './authentication/jwt.auth.interceptor';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { JwtAuthInterceptor } from './authentication/jwt.auth.interceptor';
     FilterComponent,
     InfoboxComponent,
     InputAutocompleteComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

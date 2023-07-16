@@ -1,0 +1,18 @@
+<div class="signup-box">
+    <div class="signup-outer">
+        <form class="signup-inner" (ngSubmit)="performSignup()">
+            <div class="signup-label">Vorname</div>
+            <input type="text" name="firstName" class="signup-input" [(ngModel)]="firstName">
+            <div class="signup-label">Nachname</div>
+            <input type="text" name="lastName" class="signup-input" [(ngModel)]="lastName">
+            <div class="signup-label">E-Mail</div>
+            <input type="text" name="username" class="signup-input" [(ngModel)]="email">
+            <div class="signup-label">Passwort</div>
+            <input type="password" name="password" class="signup-input" [(ngModel)]="password">
+            <button type="submit" class="signup-button">Login</button>
+        </form>
+    </div>
+    <div class="login-error" *ngIf="error">
+        {{getErrorMessage()}}
+    </div>
+</div>
