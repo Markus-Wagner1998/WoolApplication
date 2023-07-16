@@ -10,7 +10,13 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   email: string = '';
   password: string = '';
+  error: boolean = false;
 
-  constructor(public authenticationService: AuthenticationService) {}
+  constructor(private authenticationService: AuthenticationService) {
+    this.authenticationService.loginSuccess.subscribe((value) => this.error = !value);
+  }
 
+  performLogin() {
+    this.authenticationService.login(this.email, this.password);
+  }
 }

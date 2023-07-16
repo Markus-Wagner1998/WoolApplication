@@ -1,9 +1,14 @@
-<div class="login-outer">
-    <form class="login-inner" (ngSubmit)="authenticationService.login(email, password)">
-        <div class="login-label">E-Mail</div>
-        <input type="text" name="username" class="login-input" [(ngModel)]="email">
-        <div class="login-label">Passwort</div>
-        <input type="password" name="password" class="login-input" [(ngModel)]="password">
-        <button type="submit" class="login-button">Login</button>
-    </form>
+<div class="login-box">
+    <div class="login-outer">
+        <form class="login-inner" (ngSubmit)="performLogin()">
+            <div class="login-label">E-Mail</div>
+            <input type="text" name="username" class="login-input" [(ngModel)]="email">
+            <div class="login-label">Passwort</div>
+            <input type="password" name="password" class="login-input" [(ngModel)]="password">
+            <button type="submit" class="login-button">Login</button>
+        </form>
+    </div>
+    <div class="login-error" *ngIf="error">
+        Benutzername oder Passwort falsch
+    </div>
 </div>
