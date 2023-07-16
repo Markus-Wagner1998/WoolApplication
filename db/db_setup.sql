@@ -48,7 +48,7 @@ create table instruction_images (
 );
 
 -- User Creation
-create table USER (
+create table APP_USER (
 	id integer auto_increment,
     first_name varchar(100),
     last_name varchar(100),
