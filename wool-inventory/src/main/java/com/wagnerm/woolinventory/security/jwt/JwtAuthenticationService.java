@@ -11,6 +11,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class JwtAuthenticationService {
@@ -40,5 +42,14 @@ public class JwtAuthenticationService {
                 () -> new IllegalArgumentException("Invalid e-mail or password"));
         String jwt = jwtService.generateToken(user);
         return JwtAuthenticationResponse.builder().token(jwt).build();
+    }
+
+    public JwtAuthenticationResponse refresh(String userEmail) {
+        Optional<User> user = userRepository.findByEmail(userEmail);
+        if (user.isPresent()) {
+            return JwtAuthenticationResponse.builder().token(jwtService.generateToken(user.get())).build();
+        } else {
+            throw new IllegalArgumentException("User does not exist in the system");
+        }
     }
 }
