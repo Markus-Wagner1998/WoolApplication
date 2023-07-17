@@ -24,7 +24,6 @@ create table inventory_tags (
 create table inventory_images (
 	image_id integer auto_increment,
 	inventory_id integer,
-    image text,
     primary key (image_id),
     foreign key (inventory_id) references inventory(id) on delete cascade on update cascade
 );
@@ -42,12 +41,12 @@ create table instructions (
 create table instruction_images (
 	image_id integer auto_increment,
 	instruction_id integer,
-    image text,
     primary key (image_id),
     foreign key (instruction_id) references instructions(id) on delete cascade on update cascade
 );
 
 -- User Creation
+drop table if exists APP_USER;
 create table APP_USER (
 	id integer auto_increment,
     first_name varchar(100),
@@ -57,3 +56,16 @@ create table APP_USER (
     primary key(id),
     unique(email)
 );
+
+-- Add User to existing tables
+alter table inventory add user_id integer;
+alter table inventory_tags add user_id integer;
+alter table inventory_images add user_id integer;
+alter table instructions add user_id integer;
+alter table instruction_images add user_id integer;
+
+alter table inventory add constraint FK_USER_INV foreign key (user_id) references app_user(id) on delete cascade on update cascade;
+alter table inventory_tags add constraint FK_USER_INV_TAGS foreign key (user_id) references app_user(id) on delete cascade on update cascade;
+alter table inventory_images add constraint FK_USER_INV_IMG foreign key (user_id) references app_user(id) on delete cascade on update cascade;
+alter table instructions add constraint FK_USER_INS foreign key (user_id) references app_user(id) on delete cascade on update cascade;
+alter table instruction_images add constraint FK_USER_INS_IMG foreign key (user_id) references app_user(id) on delete cascade on update cascade;
