@@ -3,6 +3,7 @@ package com.wagnerm.woolinventory.rest;
 import com.wagnerm.woolinventory.security.data.User;
 import com.wagnerm.woolinventory.security.data.UserRepository;
 import com.wagnerm.woolinventory.security.jwt.JwtService;
+import com.wagnerm.woolinventory.service.WoolService;
 import com.wagnerm.woolinventory.service.data.Inventory;
 import com.wagnerm.woolinventory.service.data.InventoryImage;
 import com.wagnerm.woolinventory.service.data.InventoryRepository;
@@ -47,32 +48,37 @@ class WoolControllerTest {
 
     private String authToken;
 
+    private User testUser;
+
     @BeforeEach
     void setup() {
+        testUser = new User();
+        testUser.setEmail("test@test.de");
+        testUser.setPassword("test");
+        testUser.setFirstName("Markus");
+        testUser.setLastName("Wagner");
+        testUser = userRepository.save(testUser);
+
         this.savedInventory = inventoryRepository.save(
-                new Inventory("wool1", "black", "brand1", 5, 50, 40, 50)
+                new Inventory(testUser, "wool1", "black", "brand1", 5, 50, 40, 50)
         );
         inventoryRepository.save(
-                new Inventory("wool2", "white", "brand1", 4, 50, 40, 50)
+                new Inventory(testUser, "wool2", "white", "brand1", 4, 50, 40, 50)
         );
         InventoryTag inventoryTag = new InventoryTag();
         inventoryTag.setTag("markus");
         InventoryImage inventoryImage = new InventoryImage();
         inventoryImage.setImageBase64("base1");
-        Inventory inventory = new Inventory("wool2", "white", "brand1", 3, 50, 40, 50);
+        Inventory inventory = new Inventory(testUser, "wool2", "white", "brand1", 3, 50, 40, 50);
         inventoryTag.setInventory(inventory);
+        inventoryTag.setUser(testUser);
         inventoryImage.setInventory(inventory);
+        inventoryImage.setUser(testUser);
         inventory.setImages(List.of(inventoryImage));
         inventory.setTags(List.of(inventoryTag));
         inventoryRepository.save(inventory);
 
-        User testUser = new User();
-        testUser.setEmail("test@test.de");
-        testUser.setPassword("test");
-        testUser.setFirstName("Markus");
-        testUser.setLastName("Wagner");
-
-        authToken = jwtService.generateToken(userRepository.save(testUser));
+        authToken = jwtService.generateToken(testUser);
     }
 
     @Test
@@ -112,7 +118,7 @@ class WoolControllerTest {
 
     @Test
     void createInventory() {
-        Inventory inventoryToSave = new Inventory("newWool", "newColor", "newBrand", 10, 20, 30, 40);
+        Inventory inventoryToSave = new Inventory(testUser, "newWool", "newColor", "newBrand", 10, 20, 30, 40);
         ResponseEntity<Inventory> res = testRestTemplate.exchange(
                 "http://localhost:" + port + "/api/inventory",
                 HttpMethod.POST,
@@ -134,7 +140,7 @@ class WoolControllerTest {
 
     @Test
     void updateInventory() {
-        Inventory inventoryToSave = new Inventory("newWool", "newColor", "newBrand", 1, 20, 30, 40);
+        Inventory inventoryToSave = new Inventory(testUser, "newWool", "newColor", "newBrand", 1, 20, 30, 40);
         inventoryToSave.setId(savedInventory.getId());
         ResponseEntity<Inventory> res = testRestTemplate.exchange(
                 "http://localhost:" + port + "/api/inventory/" + inventoryToSave.getId(),

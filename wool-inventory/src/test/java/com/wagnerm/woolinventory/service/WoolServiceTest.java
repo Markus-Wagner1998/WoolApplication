@@ -1,5 +1,7 @@
 package com.wagnerm.woolinventory.service;
 
+import com.wagnerm.woolinventory.security.data.User;
+import com.wagnerm.woolinventory.security.data.UserRepository;
 import com.wagnerm.woolinventory.service.data.Inventory;
 import com.wagnerm.woolinventory.service.data.InventoryImage;
 import com.wagnerm.woolinventory.service.data.InventoryRepository;
@@ -26,24 +28,37 @@ class WoolServiceTest {
 
     private Inventory savedInventory;
 
+    private User testUser;
+
+    @Autowired
+    UserRepository userRepository;
+
     @Autowired
     InventoryRepository inventoryRepository;
 
     @BeforeEach
     void setup() {
+        testUser = new User();
+        testUser.setEmail("test@test.de");
+        testUser.setPassword("test");
+        testUser.setFirstName("Markus");
+        testUser.setLastName("Wagner");
+        testUser = userRepository.save(testUser);
         this.savedInventory = inventoryRepository.save(
-                new Inventory("wool1", "black", "brand1", 4, 50, 40, 50)
+                new Inventory(testUser, "wool1", "black", "brand1", 4, 50, 40, 50)
         );
         inventoryRepository.save(
-                new Inventory("wool2", "white", "brand1", 3, 50, 40, 50)
+                new Inventory(testUser, "wool2", "white", "brand1", 3, 50, 40, 50)
         );
         InventoryTag inventoryTag = new InventoryTag();
         inventoryTag.setTag("markus");
         InventoryImage inventoryImage = new InventoryImage();
         inventoryImage.setImageBase64("base1");
-        Inventory inventory = new Inventory("wool3", "white", "brand1", 2, 70, 40, 50);
+        Inventory inventory = new Inventory(testUser, "wool3", "white", "brand1", 2, 70, 40, 50);
         inventoryTag.setInventory(inventory);
+        inventoryTag.setUser(testUser);
         inventoryImage.setInventory(inventory);
+        inventoryImage.setUser(testUser);
         inventory.setImages(List.of(inventoryImage));
         inventory.setTags(List.of(inventoryTag));
         inventoryRepository.save(inventory);
@@ -52,6 +67,7 @@ class WoolServiceTest {
     @Test
     void getInventoriesAllOnOnePage() {
         List<Inventory> retrievedInventories = woolService.getInventories(
+                testUser.getEmail(),
                 0,
                 20,
                 "ASC",
@@ -74,6 +90,7 @@ class WoolServiceTest {
     @Test
     void getInventoriesMultiplePagesFirstPage() {
         List<Inventory> retrievedInventories = woolService.getInventories(
+                testUser.getEmail(),
                 0,
                 2,
                 "ASC",
@@ -96,6 +113,7 @@ class WoolServiceTest {
     @Test
     void getInventoriesMultiplePagesLastPage() {
         List<Inventory> retrievedInventories = woolService.getInventories(
+                testUser.getEmail(),
                 1,
                 2,
                 "ASC",
@@ -118,6 +136,7 @@ class WoolServiceTest {
     @Test
     void getInventoriesByColor() {
         List<Inventory> retrievedInventories = woolService.getInventories(
+                testUser.getEmail(),
                 0,
                 20,
                 "ASC",
@@ -140,6 +159,7 @@ class WoolServiceTest {
     @Test
     void getInventoriesByInitialAmount() {
         List<Inventory> retrievedInventories = woolService.getInventories(
+                testUser.getEmail(),
                 0,
                 20,
                 "ASC",
@@ -161,13 +181,13 @@ class WoolServiceTest {
 
     @Test
     void getInventoryByIdFound() {
-        assertThat(this.woolService.getInventoryById(savedInventory.getId())).isNotNull();
+        assertThat(this.woolService.getInventoryById(testUser.getEmail(), savedInventory.getId())).isNotNull();
     }
 
     @Test
     void getInventoryByIdNotFound() {
         assertThatThrownBy(() -> {
-            this.woolService.getInventoryById(-999);
+            this.woolService.getInventoryById(testUser.getEmail(), -999);
         }).isInstanceOf(InventoryNotFoundException.class);
     }
 
@@ -185,11 +205,11 @@ class WoolServiceTest {
         inventoryImage2.setImageBase64("base2");
         List<InventoryImage> inventoryImageList = List.of(inventoryImage, inventoryImage2);
 
-        Inventory inventory = new Inventory("wool2", "white", "brand1", 5, 50, 40, 50);
+        Inventory inventory = new Inventory(testUser, "wool2", "white", "brand1", 5, 50, 40, 50);
         inventory.setImages(inventoryImageList);
         inventory.setTags(inventoryTagList);
 
-        Inventory createdInventory = woolService.createInventory(inventory);
+        Inventory createdInventory = woolService.createInventory(testUser.getEmail(), inventory);
         assertThat(createdInventory).isNotNull();
 
         Inventory retrievedInventory = inventoryRepository.findById(createdInventory.getId()).orElseThrow();
@@ -221,11 +241,11 @@ class WoolServiceTest {
         inventoryImage2.setImageBase64("base2");
         List<InventoryImage> inventoryImageList = List.of(inventoryImage, inventoryImage2);
 
-        Inventory inventory = new Inventory("wool2", "white", "brand1", 5, 50, 40, 50);
+        Inventory inventory = new Inventory(testUser, "wool2", "white", "brand1", 5, 50, 40, 50);
         inventory.setImages(inventoryImageList);
         inventory.setTags(inventoryTagList);
 
-        Inventory updatedInventory = woolService.updateInventory(savedInventory.getId(), inventory);
+        Inventory updatedInventory = woolService.updateInventory(testUser.getEmail(), savedInventory.getId(), inventory);
         assertThat(updatedInventory).isNotNull();
 
         Inventory retrievedInventory = inventoryRepository.findById(updatedInventory.getId()).orElseThrow();
@@ -246,9 +266,9 @@ class WoolServiceTest {
 
     @Test
     void deleteInventory() {
-        woolService.deleteInventory(savedInventory.getId());
+        woolService.deleteInventory(testUser.getEmail(), savedInventory.getId());
         assertThatThrownBy(() -> {
-            this.woolService.getInventoryById(savedInventory.getId());
+            this.woolService.getInventoryById(testUser.getEmail(), savedInventory.getId());
         }).isInstanceOf(InventoryNotFoundException.class);
     }
 }
