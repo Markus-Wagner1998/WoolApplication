@@ -27,6 +27,7 @@ import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatc
 @Service
 public class WoolService {
     private final UserRepository userRepository;
+    private final ImageService imageService;
     private final InventoryRepository inventoryRepository;
     private final InventoryImageRepository inventoryImageRepository;
     private final InventoryTagRepository inventoryTagRepository;
@@ -96,7 +97,7 @@ public class WoolService {
 
     void addImageContentToInventory(Inventory inventory) {
         try {
-            List<String> imageStrings = this.readImagesFromFile(inventory);
+            List<String> imageStrings = this.imageService.readImagesFromStorage(inventory);
             for (int imageIdx = 0; imageIdx < inventory.getImages().size(); imageIdx++) {
                 inventory.getImages().get(imageIdx).setImageBase64(imageStrings.get(imageIdx));
             }
@@ -136,12 +137,12 @@ public class WoolService {
         }
         Inventory storedInventory = inventoryRepository.save(inventory);
         try {
-            deleteInventoryImagesFromFileSytem(inventory);
+            this.imageService.deleteInventoryImagesFromStorage(inventory);
             if (storedInventory.getImages() != null) {
                 for (int idx = 0; idx < storedInventory.getImages().size(); idx++) {
                     storedInventory.getImages().get(idx).setImageBase64(inventory.getImages().get(idx).getImageBase64());
                 }
-                writeImagesToFiles(storedInventory);
+                this.imageService.writeImagesToStorage(storedInventory);
             }
         } catch (IOException e) {
             throw new RuntimeException("Image could not be stored on file system!");
@@ -153,73 +154,12 @@ public class WoolService {
         Optional<Inventory> inventoryToDelete = inventoryRepository.findByUserEmailAndId(userEmail, inventoryId);
         if (inventoryToDelete.isPresent()) {
             try {
-                deleteInventoryImagesFromFileSytem(inventoryToDelete.get());
+                this.imageService.deleteInventoryImagesFromStorage(inventoryToDelete.get());
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
             }
             inventoryRepository.deleteByUserEmailAndId(userEmail, inventoryId);
-        }
-    }
-
-    private void deleteInventoryImagesFromFileSytem(Inventory inventory) throws IOException {
-        Path inventoryDirectory = Paths.get(
-                System.getProperty("user.dir"),
-                "images",
-                String.valueOf(inventory.getUser().getId()),
-                String.valueOf(inventory.getId())
-        );
-        if (inventoryDirectory.toFile().exists()) {
-            Files.walk(inventoryDirectory)
-                    .sorted(Comparator.reverseOrder())
-                    .map(Path::toFile)
-                    .forEach(File::delete);
-        }
-    }
-    private List<String> readImagesFromFile(Inventory inventory) throws IOException {
-        List<String> imageStrings = new LinkedList<>();
-        for (InventoryImage image : inventory.getImages()) {
-            Path imagePath = Paths.get(
-                System.getProperty("user.dir"),
-                "images",
-                String.valueOf(image.getUser().getId()),
-                String.valueOf(inventory.getId()),
-                String.valueOf(image.getImageId())
-            );
-            if (imagePath.toFile().exists()) {
-                byte[] allBytes = Files.readAllBytes(imagePath);
-                imageStrings.add("data:image/png;base64," + Base64.encodeBase64String(allBytes));
-            } else {
-                imageStrings.add("");
-            }
-        }
-        return imageStrings;
-    }
-
-    private void writeImagesToFiles(Inventory inventory) throws IOException {
-        for (InventoryImage image : inventory.getImages()) {
-            if (image.getImageBase64().length() > 22) {
-                byte[] data = Base64.decodeBase64(image.getImageBase64().substring(22));
-                Path imageDirectory = Paths.get(
-                        System.getProperty("user.dir"),
-                        "images"
-                );
-                if (!imageDirectory.toFile().exists()) {
-                    imageDirectory.toFile().mkdir();
-                }
-                Path userDirectory = imageDirectory.resolve(String.valueOf(image.getUser().getId()));
-                if (!userDirectory.toFile().exists()) {
-                    userDirectory.toFile().mkdir();
-                }
-                Path inventoryDirectory = userDirectory.resolve(String.valueOf(inventory.getId()));
-                if (!inventoryDirectory.toFile().exists()) {
-                    inventoryDirectory.toFile().mkdir();
-                }
-                Path filePath = inventoryDirectory.resolve(String.valueOf(image.getImageId()));
-                try (OutputStream stream = new FileOutputStream(filePath.toFile())) {
-                    stream.write(data);
-                }
-            }
         }
     }
 
