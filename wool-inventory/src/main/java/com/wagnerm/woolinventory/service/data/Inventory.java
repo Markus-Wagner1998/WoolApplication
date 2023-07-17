@@ -1,7 +1,9 @@
 package com.wagnerm.woolinventory.service.data;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.wagnerm.woolinventory.security.data.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -17,7 +19,8 @@ import java.util.List;
 @NoArgsConstructor
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+        property = "id",
+        scope = Inventory.class)
 public class Inventory {
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,13 +55,18 @@ public class Inventory {
     @Column(name = "single_amount")
     private int singleAmount;
 
+    @ManyToOne()
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
+    private User user;
+
     @OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<InventoryTag> tags;
 
     @OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<InventoryImage> images;
 
-    public Inventory(String name, String color, String brand, int intensity, int initialAmount, int remainingAmount, int singleAmount) {
+    public Inventory(User user, String name, String color, String brand, int intensity, int initialAmount, int remainingAmount, int singleAmount) {
         this.name = name;
         this.color = color;
         this.brand = brand;
@@ -66,6 +74,7 @@ public class Inventory {
         this.initialAmount = initialAmount;
         this.remainingAmount = remainingAmount;
         this.singleAmount = singleAmount;
+        this.user = user;
     }
 
 }

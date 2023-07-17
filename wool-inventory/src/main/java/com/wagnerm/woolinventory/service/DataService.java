@@ -1,5 +1,6 @@
 package com.wagnerm.woolinventory.service;
 
+import com.wagnerm.woolinventory.security.data.UserRepository;
 import com.wagnerm.woolinventory.service.data.InventoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,9 @@ import java.util.stream.Collectors;
 public class DataService {
     private final InventoryRepository inventoryRepository;
 
-    public List<String> getBrands(String brand) {
-        return this.inventoryRepository.findByBrandContains(brand).stream().map((inventory) -> inventory.getBrand()).collect(
+    public List<String> getBrands(String userEmail, String brand) {
+        return this.inventoryRepository.findByUserEmailAndBrandContains(userEmail, brand).stream().map(
+                (inventory) -> inventory.getBrand()).collect(
                 Collectors.toSet()).stream().toList();
     }
 

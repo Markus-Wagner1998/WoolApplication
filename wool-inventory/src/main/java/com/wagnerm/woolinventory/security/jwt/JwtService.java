@@ -20,6 +20,10 @@ import io.jsonwebtoken.security.Keys;
 public class JwtService {
     @Value("${token.signing.key}")
     private String jwtSigningKey;
+
+    public String extractUserNameFromAuthHeader(String authHeader) {
+        return this.extractUserName(authHeader.substring(7));
+    }
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
     }

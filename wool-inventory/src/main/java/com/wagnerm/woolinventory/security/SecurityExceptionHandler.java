@@ -1,5 +1,6 @@
 package com.wagnerm.woolinventory.security;
 
+import com.wagnerm.woolinventory.security.jwt.InvalidJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,7 +27,7 @@ public class SecurityExceptionHandler extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
             filterChain.doFilter(request, response);
-        } catch (Exception e) {
+        } catch (InvalidJwtException e) {
             resolver.resolveException(request, response, null, e);
         }
     }
