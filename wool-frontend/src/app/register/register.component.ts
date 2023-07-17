@@ -11,6 +11,7 @@ export class RegisterComponent {
   lastName: string = '';
   email: string = '';
   password: string = '';
+  passwordRepeat: string = '';
   error: boolean = false;
 
   constructor(private readonly authenticationService: AuthenticationService) {
@@ -18,16 +19,52 @@ export class RegisterComponent {
   }
 
   getErrorMessage(): string {
-    return "Ooops, Somethring went terribly wrong";
+    if (!this.isFirstNameValid()) {
+      return "Gültigen Vornamen eingeben";
+    } else if (!this.isLastNameValid()) {
+      return "Gültigen Nachnamen eingeben";
+    } else if (!this.isEmailValid()) {
+      return "Gültige E-Mail Adresse eingeben";
+    } else if (!this.isPasswordValid()) {
+      return "Gültiges Passwort eingeben";
+    } else {
+      return "Account existiert bereits";
+    }
   }
 
   performSignup(): void {
-    this.authenticationService.register(
-      this.firstName, 
-      this.lastName, 
-      this.email, 
-      this.password
-    );
+    if (this.areParametersValid()) {
+      this.error = false;
+      this.authenticationService.register(
+        this.firstName, 
+        this.lastName, 
+        this.email, 
+        this.password
+      );
+    } else {
+      this.error = true;
+    }
+  }
+
+  areParametersValid(): boolean {
+    return this.isFirstNameValid() && this.isLastNameValid() && this.isEmailValid() && this.isPasswordValid();
+  }
+
+  isFirstNameValid(): boolean {
+    return this.firstName.length > 2;
+  }
+
+  isLastNameValid(): boolean {
+    return this.lastName.length > 2;
+  }
+
+  isEmailValid(): boolean {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(this.email);
+  }
+
+  isPasswordValid(): boolean {
+    return this.password.length > 8 && this.password === this.passwordRepeat;
   }
 
 }

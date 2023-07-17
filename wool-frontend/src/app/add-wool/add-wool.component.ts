@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Wool, InventoryImage } from '../data/Wool';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-add-wool',

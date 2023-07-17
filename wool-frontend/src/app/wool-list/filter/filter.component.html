@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 <div class="wool-filter-outer">
     <div class="wool-filter-container">
-        <div class="wool-filter-heading">
+        <div class="back-button-container">
             <a routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page" queryParamsHandling="preserve">
                 <div class="back-button">
                     <span class="material-symbols-outlined">
@@ -9,9 +9,6 @@
                     </span>
                 </div>
             </a>
-            <div class="wool-heading-text">
-                Filter
-            </div>
         </div>
         <form class="wool-entry" (ngSubmit)="navigateToList()" >
             <div class="input-field">

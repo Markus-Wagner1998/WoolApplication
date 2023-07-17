@@ -11,7 +11,16 @@ export class AuthenticationService {
   signupSuccess: Subject<boolean> = new Subject();
   jwtToken: string = '';
 
-  constructor(private readonly http: HttpClient, private readonly router: Router) { }
+  constructor(private readonly http: HttpClient, private readonly router: Router) {
+    const oldJwt = localStorage.getItem('jwt');
+    if (oldJwt) {
+      this.jwtToken = oldJwt;
+    }
+  }
+
+  isUserLoggedIn(): boolean {
+    return !!this.jwtToken;
+  }
 
   register(firstName: string, lastName: string, email: string, password: string): void {
     this.http.post<JwtTokenResponse>(
@@ -25,6 +34,7 @@ export class AuthenticationService {
     ).subscribe({
       next: (data) => {
         this.jwtToken = data.token;
+        localStorage.setItem('jwt', this.jwtToken);
         this.signupSuccess.next(true);
         this.router.navigate(['/']);
       },
@@ -42,6 +52,7 @@ export class AuthenticationService {
     ).subscribe({
       next: (data) => {
         this.jwtToken = data.token;
+        localStorage.setItem('jwt', this.jwtToken);
         this.loginSuccess.next(true);
         this.router.navigate(['/']);
       },
@@ -49,8 +60,20 @@ export class AuthenticationService {
     });
   }
 
+  refresh(): void {
+    this.http.get<JwtTokenResponse>(
+      '/api/auth/refresh'
+    ).subscribe({
+      next: (data) => {
+        this.jwtToken = data.token;
+        localStorage.setItem('jwt', this.jwtToken);
+      }
+    });
+  }
+
   logout(): void {
     this.jwtToken = '';
+    localStorage.clear();
     this.router.navigate(['/login']);
   }
 

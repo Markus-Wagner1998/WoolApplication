@@ -2,8 +2,8 @@
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 <div class="wool-add-outer">
     <div class="wool-add-container">
-        <div class="wool-add-heading">
-            <a routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page"
+        <div class="back-button-container">
+            <a class="back-button-link" routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page"
                 [queryParams]="{inventoryId: undefined}" queryParamsHandling="merge">
                 <div class="back-button">
                     <span class="material-symbols-outlined">
@@ -11,9 +11,6 @@
                     </span>
                 </div>
             </a>
-            <div class="wool-heading-text" *ngIf="!loading">
-                {{getHeadingText()}}
-            </div>
         </div>
         <div class="wool-entry-container">
             <form class="wool-entry" (ngSubmit)="submitForm()" *ngIf="!loading">

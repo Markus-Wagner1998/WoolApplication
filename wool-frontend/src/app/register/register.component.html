@@ -9,10 +9,12 @@
             <input type="text" name="username" class="signup-input" [(ngModel)]="email">
             <div class="signup-label">Passwort</div>
             <input type="password" name="password" class="signup-input" [(ngModel)]="password">
-            <button type="submit" class="signup-button">Login</button>
+            <div class="signup-label">Passwort wiederholen</div>
+            <input type="password" name="password-repeat" class="signup-input" [(ngModel)]="passwordRepeat">
+            <button type="submit" class="signup-button">Registrieren</button>
         </form>
     </div>
-    <div class="login-error" *ngIf="error">
+    <div class="signup-error" *ngIf="error">
         {{getErrorMessage()}}
     </div>
 </div>

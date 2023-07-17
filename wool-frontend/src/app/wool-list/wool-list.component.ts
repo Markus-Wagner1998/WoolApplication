@@ -25,6 +25,7 @@ export class WoolListComponent implements OnInit{
     singleAmountMax: undefined,
   };
   loading: boolean = true;
+  buttonsVisible: boolean = false;
 
   constructor(
     public readonly authenticationService: AuthenticationService,
@@ -38,6 +39,21 @@ export class WoolListComponent implements OnInit{
 
   handleElementDeleted() {
     this.getWoolList();
+  }
+
+  showButtonsOnComputer(event: Event): void {
+    if (event instanceof TouchEvent) {
+      return;
+    }
+    this.buttonsVisible = true;
+  }
+
+  removeButtons(): void {
+    this.buttonsVisible = false;
+  }
+
+  toggleButtons(): void {
+    this.buttonsVisible = !this.buttonsVisible;
   }
 
   private resetWoolFilter(): void {

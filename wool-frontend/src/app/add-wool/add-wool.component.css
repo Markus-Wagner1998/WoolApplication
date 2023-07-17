@@ -1,5 +1,11 @@
+.wool-add-outer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
 
 .wool-add-container {
+    width: 95%;
     outline: 1px solid lightgrey;
     border-radius: 5px;
     overflow: hidden;
@@ -72,6 +78,22 @@
     justify-content: space-between;
 }
 
+.back-button-container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: 0;
+}
+
+.back-button-link {
+    width: 800px;
+    max-width: 90%;
+    display: block;
+    transform: translateY(24px);
+}
+
 .back-button {
     display: flex;
     border-radius: 50%;
@@ -104,14 +126,12 @@ a:visited {
 }
 
 @media only screen and (min-width: 1024px) {
-    .wool-add-outer {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-    }
-
     .wool-add-container {
         width: 80%;
+    }
+
+    .back-button-link {
+        left: calc((100% - 800px)/2);
     }
 
     .wool-entry-container {
