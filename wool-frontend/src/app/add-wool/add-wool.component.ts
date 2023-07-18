@@ -77,10 +77,6 @@ export class AddWoolComponent implements OnInit {
     return this.wool.id > 0 ? 'Wolle updaten' : 'Wolle hinzufügen';
   }
 
-  getHeadingText(): string{
-    return this.wool.id > 0 ? 'Wolle bearbeiten' : 'Neue Wolle';
-  }
-
   private validateWool(): boolean {
     return this.wool.name.length > 0 
       && this.wool.color.length > 0

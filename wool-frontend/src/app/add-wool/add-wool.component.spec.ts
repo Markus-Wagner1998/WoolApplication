@@ -139,14 +139,41 @@ describe('AddWoolComponent', () => {
     })
   });
 
-  // it('should store image as b64', () => {
-  //   const readImageSpy = spyOn(component, 'readImageBase64').and.stub();
-  //   component.storeImage({
-  //     target: {
-  //       files: ['stuff'],
-  //     },
-  //   } as any as Event);
-  //   expect(readImageSpy).toHaveBeenCalled();
-  // })
+  it('should store image as b64', () => {
+    const readImageSpy = spyOn(component, 'readImageBase64').and.stub();
+    component.storeImage({
+      target: {
+        files: ['stuff'],
+      },
+    } as any as Event);
+    expect(readImageSpy).toHaveBeenCalled();
+  });
+
+  it('should get image source correctly, existing image', () => {
+    component.wool = mockWool;
+    component.wool.images = [{
+      id: 1,
+      imageBase64: 'base64',
+    }];
+    expect(component.getImageSource()).toEqual('base64');
+  });
+
+  it('should get image source correctly, no images', () => {
+    component.wool = mockWool;
+    component.wool.images = [];
+    expect(component.getImageSource()).toEqual('http://placehold.it/180');
+  });
+
+  it('should get submit button text - update', () => {
+    component.wool = mockWool;
+    component.wool.id = 1000;
+    expect(component.getSubmitButtonText()).toEqual('Wolle updaten');
+  });
+
+  it('should get submit button text - create', () => {
+    component.wool = mockWool;
+    component.wool.id = 0;
+    expect(component.getSubmitButtonText()).toEqual('Wolle hinzufügen');
+  });
 
 });
