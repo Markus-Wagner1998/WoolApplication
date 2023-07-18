@@ -15,9 +15,7 @@ export class InputAutocompleteComponent {
   @Input() data: any;
   @Output() dataChange: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private readonly http: HttpClient) {
-
-  }
+  constructor(private readonly http: HttpClient) { }
 
   onInput() {
     const dataUrl = '/api/data/';

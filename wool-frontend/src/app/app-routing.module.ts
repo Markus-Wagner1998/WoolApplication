@@ -6,7 +6,7 @@ import { FilterComponent } from './wool-list/filter/filter.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './authentication/authentication.guard';
 import { RegisterComponent } from './register/register.component';
-import { AccountGuard } from './authentication/account.guard.ts';
+import { AccountGuard } from './authentication/account.guard';
 
 const routes: Routes = [
   { path: '', component: WoolListComponent, canActivate: [AuthGuard] },
