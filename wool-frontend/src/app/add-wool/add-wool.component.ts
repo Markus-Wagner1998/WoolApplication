@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './add-wool.component.html',
   styleUrls: ['./add-wool.component.css']
 })
-export class AddWoolComponent implements OnInit{
+export class AddWoolComponent implements OnInit {
   wool: Wool = {
     id: 0,
     name: '',
@@ -120,7 +120,7 @@ export class AddWoolComponent implements OnInit{
       });
   }
 
-  private readImageBase64(file: File, inventoryImages: InventoryImage[]): void {
+  readImageBase64(file: File, inventoryImages: InventoryImage[]): void {
     const reader = new FileReader();
     reader.onload = (e) => {
       const res = reader.result;

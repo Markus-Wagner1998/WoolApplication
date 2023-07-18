@@ -9,7 +9,7 @@ import { AuthenticationService } from '../authentication/authentication.service'
   templateUrl: './wool-list.component.html',
   styleUrls: ['./wool-list.component.css']
 })
-export class WoolListComponent implements OnInit{
+export class WoolListComponent implements OnInit {
   wools: Wool[] = [];
   woolFilter: WoolFilter = {
     name: undefined,
