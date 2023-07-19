@@ -41,13 +41,6 @@ export class WoolListComponent implements OnInit {
     this.getWoolList();
   }
 
-  showButtonsOnComputer(event: Event): void {
-    if (event instanceof TouchEvent) {
-      return;
-    }
-    this.buttonsVisible = true;
-  }
-
   removeButtons(): void {
     this.buttonsVisible = false;
   }

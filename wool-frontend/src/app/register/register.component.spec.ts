@@ -4,6 +4,7 @@ import { RegisterComponent } from './register.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AuthenticationService } from '../authentication/authentication.service';
+import { of } from 'rxjs';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -13,7 +14,16 @@ describe('RegisterComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, FormsModule],
-      declarations: [RegisterComponent]
+      declarations: [RegisterComponent],
+      providers: [ 
+        {
+          provide: AuthenticationService,
+          useValue: {
+            register: () => {},
+            signupSuccess: of(false),
+          }
+        }
+      ]
     });
     fixture = TestBed.createComponent(RegisterComponent);
     component = fixture.componentInstance;
@@ -23,6 +33,7 @@ describe('RegisterComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.error).toBeTrue();
   });
 
   it('should get correct errorMessage - wrong firstname', () => {

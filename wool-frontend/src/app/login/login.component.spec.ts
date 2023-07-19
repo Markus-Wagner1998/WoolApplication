@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from '../app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { AuthenticationService } from '../authentication/authentication.service';
+import { of } from 'rxjs';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -14,7 +15,16 @@ describe('LoginComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, AppRoutingModule, FormsModule],
-      declarations: [LoginComponent]
+      declarations: [LoginComponent],
+      providers: [ 
+        {
+          provide: AuthenticationService,
+          useValue: {
+            login: () => {},
+            loginSuccess: of(false),
+          }
+        }
+      ]
     });
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
@@ -24,6 +34,7 @@ describe('LoginComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.error).toBeTrue();
   });
 
   it('should perform login', () => {
