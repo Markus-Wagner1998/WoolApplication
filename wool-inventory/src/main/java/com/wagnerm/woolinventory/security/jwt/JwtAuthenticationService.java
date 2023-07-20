@@ -1,17 +1,15 @@
 package com.wagnerm.woolinventory.security.jwt;
 
-import com.wagnerm.woolinventory.rest.DuplicateUserException;
-import com.wagnerm.woolinventory.security.data.UserRepository;
+import com.wagnerm.woolinventory.rest.exceptions.DuplicateUserException;
 import com.wagnerm.woolinventory.security.data.SignInRequest;
 import com.wagnerm.woolinventory.security.data.SignUpRequest;
 import com.wagnerm.woolinventory.security.data.User;
+import com.wagnerm.woolinventory.security.data.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -45,11 +43,12 @@ public class JwtAuthenticationService {
     }
 
     public JwtAuthenticationResponse refresh(String userEmail) {
-        Optional<User> user = userRepository.findByEmail(userEmail);
-        if (user.isPresent()) {
-            return JwtAuthenticationResponse.builder().token(jwtService.generateToken(user.get())).build();
-        } else {
-            throw new IllegalArgumentException("User does not exist in the system");
-        }
+        User user = userRepository.findByEmail(userEmail).orElseThrow(
+                () -> new IllegalArgumentException("User does not exist in the system"));
+        return JwtAuthenticationResponse
+                .builder()
+                .token(
+                        jwtService.generateToken(user)
+                ).build();
     }
 }

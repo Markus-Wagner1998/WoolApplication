@@ -1,9 +1,11 @@
 package com.wagnerm.woolinventory.rest;
 
+import com.wagnerm.woolinventory.rest.exceptions.DuplicateUserException;
 import com.wagnerm.woolinventory.security.jwt.InvalidJwtException;
 import com.wagnerm.woolinventory.service.error.InventoryNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -19,6 +21,13 @@ public class WoolExceptionHandler {
 
     @ExceptionHandler(DuplicateUserException.class)
     public ResponseEntity<HttpResponse> handleDuplicateUserException(DuplicateUserException exception) {
+        return ResponseEntity.
+                status(HttpStatus.BAD_REQUEST)
+                .body(new HttpResponse(HttpStatus.BAD_REQUEST.value(), exception.getMessage()));
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<HttpResponse> handleDuplicateUserException(UsernameNotFoundException exception) {
         return ResponseEntity.
                 status(HttpStatus.BAD_REQUEST)
                 .body(new HttpResponse(HttpStatus.BAD_REQUEST.value(), exception.getMessage()));

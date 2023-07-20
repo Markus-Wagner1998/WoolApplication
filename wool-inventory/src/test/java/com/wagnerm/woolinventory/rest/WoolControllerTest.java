@@ -3,7 +3,6 @@ package com.wagnerm.woolinventory.rest;
 import com.wagnerm.woolinventory.security.data.User;
 import com.wagnerm.woolinventory.security.data.UserRepository;
 import com.wagnerm.woolinventory.security.jwt.JwtService;
-import com.wagnerm.woolinventory.service.WoolService;
 import com.wagnerm.woolinventory.service.data.Inventory;
 import com.wagnerm.woolinventory.service.data.InventoryImage;
 import com.wagnerm.woolinventory.service.data.InventoryRepository;

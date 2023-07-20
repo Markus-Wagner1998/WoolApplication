@@ -1,4 +1,4 @@
-package com.wagnerm.woolinventory.rest;
+package com.wagnerm.woolinventory.rest.exceptions;
 
 public class DuplicateUserException extends RuntimeException {
 
