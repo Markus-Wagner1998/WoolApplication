@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from '../authentication/authentication.service';
+import { User } from '../data/User';
 
 @Component({
   selector: 'app-register',
@@ -7,11 +8,14 @@ import { AuthenticationService } from '../authentication/authentication.service'
   styleUrls: ['./register.component.css', '../app.component.css']
 })
 export class RegisterComponent {
-  firstName: string = '';
-  lastName: string = '';
-  email: string = '';
-  password: string = '';
-  passwordRepeat: string = '';
+  user: User = new User(
+    0,
+    '',
+    '',
+    '',
+    '',
+    '',
+  );
   error: boolean = false;
 
   constructor(private readonly authenticationService: AuthenticationService) {
@@ -19,13 +23,13 @@ export class RegisterComponent {
   }
 
   getErrorMessage(): string {
-    if (!this.isFirstNameValid()) {
+    if (!this.user.isFirstNameValid()) {
       return "Gültigen Vornamen eingeben";
-    } else if (!this.isLastNameValid()) {
+    } else if (!this.user.isLastNameValid()) {
       return "Gültigen Nachnamen eingeben";
-    } else if (!this.isEmailValid()) {
+    } else if (!this.user.isEmailValid()) {
       return "Gültige E-Mail Adresse eingeben";
-    } else if (!this.isPasswordValid()) {
+    } else if (!this.user.isPasswordValid()) {
       return "Gültiges Passwort eingeben";
     } else {
       return "Account existiert bereits";
@@ -33,38 +37,17 @@ export class RegisterComponent {
   }
 
   performSignup(): void {
-    if (this.areParametersValid()) {
+    if (this.user.isCreateValid()) {
       this.error = false;
       this.authenticationService.register(
-        this.firstName, 
-        this.lastName, 
-        this.email, 
-        this.password
+        this.user.firstName, 
+        this.user.lastName, 
+        this.user.email, 
+        this.user.password
       );
     } else {
       this.error = true;
     }
-  }
-
-  areParametersValid(): boolean {
-    return this.isFirstNameValid() && this.isLastNameValid() && this.isEmailValid() && this.isPasswordValid();
-  }
-
-  isFirstNameValid(): boolean {
-    return this.firstName.length > 2;
-  }
-
-  isLastNameValid(): boolean {
-    return this.lastName.length > 2;
-  }
-
-  isEmailValid(): boolean {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return emailRegex.test(this.email);
-  }
-
-  isPasswordValid(): boolean {
-    return this.password.length > 8 && this.password === this.passwordRepeat;
   }
 
 }

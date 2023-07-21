@@ -3,17 +3,21 @@
 <div class="page">
     <div class="navbar">
         <div class="navbar-left">
-            <div class="navbar-heading">
-                Wolle
-            </div>
-            <div class="navbar-expandable" (mouseenter)="openMenu()" (mouseleave)="closeMenu()" *ngIf="!isLoggedIn()">
+            <a class="navmenu-link" routerLink="/" routerLinkActive="active"
+                ariaCurrentWhenActive="page">
+                <div class="navbar-heading">
+                    Wolle
+                </div>
+            </a>
+            <div class="navbar-expandable" (mouseenter)="openMenu()" (mouseleave)="closeMenu()">
                 <div class="navbar-item">
                     <span class="material-symbols-outlined">
                         person
                     </span>
                 </div>
                 <div class="menu" *ngIf="menuOpen">
-                    <a class="navmenu-link" routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">
+                    <a class="navmenu-link" *ngIf="!isLoggedIn()" routerLink="/login" routerLinkActive="active"
+                        ariaCurrentWhenActive="page">
                         <div class="button">
                             <span class="material-symbols-outlined">
                                 login
@@ -21,12 +25,22 @@
                             <span class="button-hint">Login</span>
                         </div>
                     </a>
-                    <a class="navmenu-link" routerLink="/register" routerLinkActive="active" ariaCurrentWhenActive="page">
+                    <a class="navmenu-link" *ngIf="!isLoggedIn()" routerLink="/register" routerLinkActive="active"
+                        ariaCurrentWhenActive="page">
                         <div class="button">
                             <span class="material-symbols-outlined">
                                 person
                             </span>
                             <span class="button-hint">Registrieren</span>
+                        </div>
+                    </a>
+                    <a class="navmenu-link" *ngIf="isLoggedIn()" routerLink="/profile" routerLinkActive="active"
+                        ariaCurrentWhenActive="page">
+                        <div class="button">
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+                            <span class="button-hint">Profil</span>
                         </div>
                     </a>
                 </div>

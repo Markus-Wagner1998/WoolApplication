@@ -2,15 +2,15 @@
     <div class="signup-outer">
         <form class="signup-inner" (ngSubmit)="performSignup()">
             <div class="signup-label">Vorname</div>
-            <input type="text" name="firstName" class="signup-input" [(ngModel)]="firstName">
+            <input type="text" name="firstName" class="signup-input" [(ngModel)]="user.firstName">
             <div class="signup-label">Nachname</div>
-            <input type="text" name="lastName" class="signup-input" [(ngModel)]="lastName">
+            <input type="text" name="lastName" class="signup-input" [(ngModel)]="user.lastName">
             <div class="signup-label">E-Mail</div>
-            <input type="text" name="username" class="signup-input" [(ngModel)]="email">
+            <input type="text" name="username" class="signup-input" [(ngModel)]="user.email">
             <div class="signup-label">Passwort</div>
-            <input type="password" name="password" class="signup-input" [(ngModel)]="password">
+            <input type="password" name="password" class="signup-input" [(ngModel)]="user.password">
             <div class="signup-label">Passwort wiederholen</div>
-            <input type="password" name="password-repeat" class="signup-input" [(ngModel)]="passwordRepeat">
+            <input type="password" name="password-repeat" class="signup-input" [(ngModel)]="user.passwordRepeat">
             <button type="submit" class="signup-button">Registrieren</button>
         </form>
     </div>

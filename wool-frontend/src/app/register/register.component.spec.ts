@@ -37,82 +37,82 @@ describe('RegisterComponent', () => {
   });
 
   it('should get correct errorMessage - wrong firstname', () => {
-    component.firstName = '';
+    component.user.firstName = '';
     expect(component.getErrorMessage()).toEqual('Gültigen Vornamen eingeben');
   });
 
   it('should get correct errorMessage - wrong lastName', () => {
-    component.firstName = 'firstName';
-    component.lastName = '';
+    component.user.firstName = 'firstName';
+    component.user.lastName = '';
     expect(component.getErrorMessage()).toEqual('Gültigen Nachnamen eingeben');
   });
 
   it('should get correct errorMessage - wrong email', () => {
-    component.firstName = 'firstName';
-    component.lastName = 'lastName';
-    component.email = '';
+    component.user.firstName = 'firstName';
+    component.user.lastName = 'lastName';
+    component.user.email = '';
     expect(component.getErrorMessage()).toEqual('Gültige E-Mail Adresse eingeben');
   });
 
   it('should get correct errorMessage - wrong password', () => {
-    component.firstName = 'firstName';
-    component.lastName = 'lastName';
-    component.email = 'email@email.de';
-    component.password = '';
+    component.user.firstName = 'firstName';
+    component.user.lastName = 'lastName';
+    component.user.email = 'email@email.de';
+    component.user.password = '';
     expect(component.getErrorMessage()).toEqual('Gültiges Passwort eingeben');
   });
 
   it('should get correct errorMessage - duplicate account', () => {
-    component.firstName = 'firstName';
-    component.lastName = 'lastName';
-    component.email = 'email@email.de';
-    component.password = 'password123';
-    component.passwordRepeat = 'password123';
+    component.user.firstName = 'firstName';
+    component.user.lastName = 'lastName';
+    component.user.email = 'email@email.de';
+    component.user.password = 'password123';
+    component.user.passwordRepeat = 'password123';
     expect(component.getErrorMessage()).toEqual('Account existiert bereits');
   });
 
   it('should get if parameters are valid - wrong firstname', () => {
-    component.firstName = '';
-    expect(component.areParametersValid()).toBeFalse();
+    component.user.firstName = '';
+    expect(component.user.isCreateValid()).toBeFalse();
   });
 
   it('should get if parameters are valid - wrong lastName', () => {
-    component.firstName = 'firstName';
-    component.lastName = '';
-    expect(component.areParametersValid()).toBeFalse();
+    component.user.firstName = 'firstName';
+    component.user.lastName = '';
+    expect(component.user.isCreateValid()).toBeFalse();
   });
 
   it('should get if parameters are valid - wrong email', () => {
-    component.firstName = 'firstName';
-    component.lastName = 'lastName';
-    component.email = '';
-    expect(component.areParametersValid()).toBeFalse();
+    component.user.firstName = 'firstName';
+    component.user.lastName = 'lastName';
+    component.user.email = '';
+    expect(component.user.isCreateValid()).toBeFalse();
   });
 
   it('should get if parameters are valid - wrong password', () => {
-    component.firstName = 'firstName';
-    component.lastName = 'lastName';
-    component.email = 'email@email.de';
-    component.password = '';
-    expect(component.areParametersValid()).toBeFalse();
+    component.user.firstName = 'firstName';
+    component.user.lastName = 'lastName';
+    component.user.email = 'email@email.de';
+    component.user.password = '';
+    expect(component.user.isCreateValid()).toBeFalse();
   });
 
   it('should get if parameters are valid - valid params', () => {
-    component.firstName = 'firstName';
-    component.lastName = 'lastName';
-    component.email = 'email@email.de';
-    component.password = 'password123';
-    component.passwordRepeat = 'password123';
-    expect(component.areParametersValid()).toBeTrue();
+    component.user.firstName = 'firstName';
+    component.user.lastName = 'lastName';
+    component.user.email = 'email@email.de';
+    component.user.password = 'password123';
+    component.user.passwordRepeat = 'password123';
+    expect(component.user.isCreateValid()).toBeTrue();
   });
 
   it('should perform signup - valid parameters', () => {
     component.error = true;
-    component.firstName = 'firstName';
-    component.lastName = 'lastName';
-    component.email = 'email@email.de';
-    component.password = 'password123';
-    component.passwordRepeat = 'password123';
+    component.user.firstName = 'firstName';
+    component.user.lastName = 'lastName';
+    component.user.email = 'email@email.de';
+    component.user.password = 'password123';
+    component.user.passwordRepeat = 'password123';
     spyOn(authenticationService, 'register').and.stub();
 
     component.performSignup();
@@ -122,11 +122,11 @@ describe('RegisterComponent', () => {
 
   it('should perform signup - invalid parameters', () => {
     component.error = false;
-    component.firstName = 'firstName';
-    component.lastName = 'lastName';
-    component.email = 'email@email.de';
-    component.password = 'password123';
-    component.passwordRepeat = '';
+    component.user.firstName = 'firstName';
+    component.user.lastName = 'lastName';
+    component.user.email = 'email@email.de';
+    component.user.password = 'password123';
+    component.user.passwordRepeat = '';
     spyOn(authenticationService, 'register').and.stub();
 
     component.performSignup();

@@ -7,11 +7,13 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './authentication/authentication.guard';
 import { RegisterComponent } from './register/register.component';
 import { AccountGuard } from './authentication/account.guard';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   { path: '', component: WoolListComponent, canActivate: [AuthGuard] },
   { path: 'add', component: AddWoolComponent, canActivate: [AuthGuard] },
   { path: 'filter', component: FilterComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [AccountGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [AccountGuard] },
 ];
