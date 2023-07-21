@@ -5,6 +5,8 @@ import com.wagnerm.woolinventory.security.data.SignInRequest;
 import com.wagnerm.woolinventory.security.data.SignUpRequest;
 import com.wagnerm.woolinventory.security.data.User;
 import com.wagnerm.woolinventory.security.data.UserRepository;
+import com.wagnerm.woolinventory.service.data.UpdateUserDTO;
+import com.wagnerm.woolinventory.service.data.UserDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 
@@ -29,10 +32,11 @@ class JwtAuthenticationServiceTest {
     private JwtService jwtService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    private User testUser;
 
     @BeforeEach
     void setup() {
-        userRepository.save(
+        testUser = userRepository.save(
                 User.builder()
                         .email("test@test.de")
                         .firstName("Markus")
@@ -114,6 +118,80 @@ class JwtAuthenticationServiceTest {
         Assertions.assertThrows(
                 IllegalArgumentException.class,
                 () -> jwtAuthenticationService.refresh("non@existent.de")
+        );
+    }
+
+    @Test
+    void updateUser() {
+        UserDTO updatedUser = jwtAuthenticationService.updateUser(
+                "test@test.de",
+                new UpdateUserDTO(
+                        User.builder()
+                                .email("test@test.de")
+                                .firstName("Markus2")
+                                .lastName("Wagner2")
+                                .password("test")
+                                .build()
+                )
+        );
+        assertThat(updatedUser).isNotNull();
+        assertThat(updatedUser.getId()).isEqualTo(testUser.getId());
+        assertThat(updatedUser.getEmail()).isEqualTo(testUser.getEmail());
+        assertThat(updatedUser.getFirstName()).isEqualTo("Markus2");
+        assertThat(updatedUser.getLastName()).isEqualTo("Wagner2");
+    }
+
+    @Test
+    void updateUserForOtherUserFails() {
+        Assertions.assertThrows(
+                UsernameNotFoundException.class,
+                () -> jwtAuthenticationService.updateUser(
+                        "other@user.de",
+                        new UpdateUserDTO(
+                                User.builder()
+                                        .email("test@test.de")
+                                        .firstName("Markus2")
+                                        .lastName("Wagner2")
+                                        .password("test")
+                                        .build()
+                        )
+                )
+        );
+    }
+
+    @Test
+    void updateUserNonExistentUser() {
+        Assertions.assertThrows(
+                UsernameNotFoundException.class,
+                () -> jwtAuthenticationService.updateUser(
+                        "other@user.de",
+                        new UpdateUserDTO(
+                                User.builder()
+                                        .email("other@user.de")
+                                        .firstName("Markus2")
+                                        .lastName("Wagner2")
+                                        .password("test")
+                                        .build()
+                        )
+                )
+        );
+    }
+
+    @Test
+    void getUserByEmail() {
+        UserDTO user = jwtAuthenticationService.getUserByEmail("test@test.de");
+        assertThat(user).isNotNull();
+        assertThat(user.getId()).isEqualTo(testUser.getId());
+        assertThat(user.getEmail()).isEqualTo(testUser.getEmail());
+        assertThat(user.getFirstName()).isEqualTo(testUser.getFirstName());
+        assertThat(user.getLastName()).isEqualTo(testUser.getLastName());
+    }
+
+    @Test
+    void getUserByEmailFailsForNonExistentUser() {
+        Assertions.assertThrows(
+                UsernameNotFoundException.class,
+                () -> jwtAuthenticationService.getUserByEmail("non-existent@user.de")
         );
     }
 }

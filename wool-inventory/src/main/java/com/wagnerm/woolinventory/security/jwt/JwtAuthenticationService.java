@@ -5,9 +5,12 @@ import com.wagnerm.woolinventory.security.data.SignInRequest;
 import com.wagnerm.woolinventory.security.data.SignUpRequest;
 import com.wagnerm.woolinventory.security.data.User;
 import com.wagnerm.woolinventory.security.data.UserRepository;
+import com.wagnerm.woolinventory.service.data.UpdateUserDTO;
+import com.wagnerm.woolinventory.service.data.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -51,4 +54,27 @@ public class JwtAuthenticationService {
                         jwtService.generateToken(user)
                 ).build();
     }
+
+    public UserDTO updateUser(String userEmail, UpdateUserDTO updateUser) {
+        if (!userEmail.equalsIgnoreCase(updateUser.getEmail())) {
+            throw new UsernameNotFoundException("User authentication does not match provided user object");
+        }
+        User dbUser = this.userRepository.findByEmail(userEmail).orElseThrow(() -> new UsernameNotFoundException(
+                "User with id %s could not be found.".formatted(userEmail)));
+        updateUser.setId(dbUser.getId());
+        if (updateUser.getPassword().isEmpty()) {
+            updateUser.setPassword(dbUser.getPassword());
+        } else {
+            updateUser.setPassword(passwordEncoder.encode(updateUser.getPassword()));
+        }
+        return new UserDTO(this.userRepository.save(updateUser.toUser()));
+    }
+
+    public UserDTO getUserByEmail(String userEmail) {
+        return new UserDTO(
+                this.userRepository.findByEmail(userEmail).orElseThrow(() -> new UsernameNotFoundException(
+                        "User with email %s could not be found.".formatted(userEmail)))
+        );
+    }
+
 }

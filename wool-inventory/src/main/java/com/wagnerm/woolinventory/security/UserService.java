@@ -2,6 +2,8 @@ package com.wagnerm.woolinventory.security;
 
 import com.wagnerm.woolinventory.security.data.User;
 import com.wagnerm.woolinventory.security.data.UserRepository;
+import com.wagnerm.woolinventory.security.jwt.JwtAuthenticationService;
+import com.wagnerm.woolinventory.service.data.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,21 +23,6 @@ public class UserService {
                         "User with name %s could not be found".formatted(username)));
             }
         };
-    }
-
-    public User updateUser(String userEmail, User user) {
-        if (!userEmail.equalsIgnoreCase(user.getEmail())) {
-            throw new UsernameNotFoundException("User authentication does not match provided user object");
-        }
-        User dbUser = this.userRepository.findByEmail(userEmail).orElseThrow(() -> new UsernameNotFoundException(
-                "User with id %s could not be found.".formatted(userEmail)));
-        user.setId(dbUser.getId());
-        return this.userRepository.save(user);
-    }
-
-    public User getUserByEmail(String userEmail) {
-        return this.userRepository.findByEmail(userEmail).orElseThrow(() -> new UsernameNotFoundException(
-                "User with email %s could not be found.".formatted(userEmail)));
     }
 
 }
