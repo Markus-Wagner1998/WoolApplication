@@ -34,6 +34,7 @@ export class AuthenticationService {
     ).subscribe({
       next: (data) => {
         localStorage.clear();
+        this.jwtToken = '';
         this.signupSuccess.next(true);
         this.router.navigate(['/'], {
           queryParams: {

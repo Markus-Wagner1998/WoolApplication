@@ -37,6 +37,7 @@ describe('AuthenticationService', () => {
   });
 
   it('should process successful signup', () => {
+    localStorage.clear();
     const postSpy = spyOn(http, 'post').and.returnValue(of({token: 'token'}));
     let signUpSuccessFull: boolean = false;
     service.signupSuccess.subscribe((value: boolean) => signUpSuccessFull = value);
@@ -53,9 +54,13 @@ describe('AuthenticationService', () => {
       },
     );
     expect(signUpSuccessFull).toBeTrue();
-    expect(service.jwtToken).toEqual('token');
-    expect(localStorage.getItem('jwt')).toEqual('token');
-    expect(navigateSpy).toHaveBeenCalledOnceWith(['/']);
+    expect(service.jwtToken).toEqual('');
+    expect(localStorage.getItem('jwt')).toBeFalsy();
+    expect(navigateSpy).toHaveBeenCalledOnceWith(['/'], {
+      queryParams: {
+        notActive: true,
+      },
+    });
   });
 
   it('should process erroneous signup', () => {
@@ -139,7 +144,11 @@ describe('AuthenticationService', () => {
     service.logout();
     expect(localStorage.getItem('jwt')).toBeFalsy();
     expect(service.jwtToken).toEqual('');
-    expect(navigateSpy).toHaveBeenCalledOnceWith(['/login']);
+    expect(navigateSpy).toHaveBeenCalledOnceWith(['/login'], {
+      queryParams: {
+        loggedOut: true,
+      },
+    });
   })
 
 });
