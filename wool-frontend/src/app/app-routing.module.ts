@@ -8,6 +8,9 @@ import { AuthGuard } from './authentication/authentication.guard';
 import { RegisterComponent } from './register/register.component';
 import { AccountGuard } from './authentication/account.guard';
 import { ProfileComponent } from './profile/profile.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { ActivateAccountComponent } from './activate-account/activate-account.component';
+import { PasswordResetHashComponent } from './password-reset-hash/password-reset-hash.component';
 
 const routes: Routes = [
   { path: '', component: WoolListComponent, canActivate: [AuthGuard] },
@@ -16,6 +19,9 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [AccountGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [AccountGuard] },
+  { path: 'activate', component: ActivateAccountComponent, canActivate: [AccountGuard] },
+  { path: 'resetPassword', component: PasswordResetComponent, canActivate: [AccountGuard] },
+  { path: 'resetPasswordHash', component: PasswordResetHashComponent, canActivate: [AccountGuard]}
 ];
 
 @NgModule({
