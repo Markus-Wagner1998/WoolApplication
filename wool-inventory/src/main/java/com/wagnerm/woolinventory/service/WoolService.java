@@ -61,7 +61,7 @@ public class WoolService {
         searchInventory.setName(name);
         searchInventory.setColor(color);
         searchInventory.setBrand(brand);
-        searchInventory.setUser(userRepository.findByEmail(userEmail).orElse(null));
+        searchInventory.setUser(userRepository.findByEmailAndActive(userEmail, true).orElse(null));
 
         Pageable page = PageRequest.of(
                 pageNumber,
@@ -107,13 +107,13 @@ public class WoolService {
     }
 
     public Inventory createInventory(String userEmail, Inventory inventory) {
-        User user = userRepository.findByEmail(userEmail).get();
+        User user = userRepository.findByEmailAndActive(userEmail, true).get();
         inventory.setUser(user);
         return this.saveInventoryWithId(null, inventory);
     }
 
     public Inventory updateInventory(String userEmail, Integer inventoryId, Inventory inventory) {
-        User user = userRepository.findByEmail(userEmail).get();
+        User user = userRepository.findByEmailAndActive(userEmail, true).get();
         inventory.setUser(user);
         return this.saveInventoryWithId(inventoryId, inventory);
     }
