@@ -56,6 +56,7 @@ class WoolControllerTest {
         testUser.setPassword("test");
         testUser.setFirstName("Markus");
         testUser.setLastName("Wagner");
+        testUser.setActive(true);
         testUser = userRepository.save(testUser);
 
         this.savedInventory = inventoryRepository.save(

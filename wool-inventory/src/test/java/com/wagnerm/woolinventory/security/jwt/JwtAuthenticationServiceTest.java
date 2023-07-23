@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,6 +34,10 @@ class JwtAuthenticationServiceTest {
     private JwtService jwtService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @MockBean
+    private JavaMailSender javaMailSender;
+
     private User testUser;
 
     @BeforeEach
@@ -42,6 +48,7 @@ class JwtAuthenticationServiceTest {
                         .firstName("Markus")
                         .lastName("Wagner")
                         .password(passwordEncoder.encode("password"))
+                        .active(true)
                         .build()
         );
     }

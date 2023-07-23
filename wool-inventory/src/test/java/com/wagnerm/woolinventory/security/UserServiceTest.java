@@ -33,6 +33,7 @@ class UserServiceTest {
                 .firstName("Markus")
                 .lastName("Wagner")
                 .password("test")
+                .active(true)
                 .build();
         testUser = userRepository.save(testUser);
     }

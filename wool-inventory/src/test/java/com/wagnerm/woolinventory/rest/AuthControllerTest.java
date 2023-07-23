@@ -12,11 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 
@@ -36,6 +38,8 @@ class AuthControllerTest {
     private JwtService jwtService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @MockBean
+    private JavaMailSender javaMailSender;
     private String authToken;
 
     @BeforeEach
@@ -44,6 +48,7 @@ class AuthControllerTest {
                 .firstName("Petra")
                 .lastName("Kreuzhuber")
                 .email("other@other.de")
+                .active(true)
                 .password(passwordEncoder.encode("password"))
                 .build();
         user = userRepository.save(user);

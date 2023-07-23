@@ -43,6 +43,7 @@ class WoolServiceTest {
         testUser.setPassword("test");
         testUser.setFirstName("Markus");
         testUser.setLastName("Wagner");
+        testUser.setActive(true);
         testUser = userRepository.save(testUser);
         this.savedInventory = inventoryRepository.save(
                 new Inventory(testUser, "wool1", "black", "brand1", 4, 50, 40, 50)
