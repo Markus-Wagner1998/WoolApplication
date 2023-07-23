@@ -69,3 +69,6 @@ alter table inventory_tags add constraint FK_USER_INV_TAGS foreign key (user_id)
 alter table inventory_images add constraint FK_USER_INV_IMG foreign key (user_id) references app_user(id) on delete cascade on update cascade;
 alter table instructions add constraint FK_USER_INS foreign key (user_id) references app_user(id) on delete cascade on update cascade;
 alter table instruction_images add constraint FK_USER_INS_IMG foreign key (user_id) references app_user(id) on delete cascade on update cascade;
+
+alter table APP_USER add hash varchar(255);
+alter table APP_USER add active boolean;
