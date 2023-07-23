@@ -7,32 +7,6 @@
     transform: translate(-50%, -50%);
 }
 
-.profile-error {
-    width: 100%;
-    height: 50px;
-    background-color: brown;
-    color: white;
-    font-weight: 500;
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.profile-success {
-    width: 100%;
-    height: 50px;
-    background-color: greenyellow;
-    color: white;
-    font-weight: 500;
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .profile-outer {
     width: 100%;
     height: 500px;
@@ -50,36 +24,4 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.profile-label {
-    width: 100%;
-    height: 16px;
-    margin-left: 50px;
-    margin-top: 25px;
-    margin-bottom: 8px;
-}
-
-.profile-input {
-    width: calc(100% - 50px);
-    border: 1px solid grey;
-    border-radius: 5px;
-    height: 36px;
-}
-
-.profile-input::placeholder {
-    color: lightskyblue;
-    vertical-align: baseline;
-    font-size: 16px;
-}
-
-.profile-button {
-    margin-top: 25px;
-    margin-bottom: 25px;
-    border: 1px solid black;
-    border-radius: 5px;
-    background-color: white;
-    width: 200px;
-    line-height: 36px;
-    cursor: pointer;
 }

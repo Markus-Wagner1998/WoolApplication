@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-add-wool',
   templateUrl: './add-wool.component.html',
-  styleUrls: ['./add-wool.component.css']
+  styleUrls: ['./add-wool.component.css', '../app.component.css']
 })
 export class AddWoolComponent implements OnInit {
   wool: Wool = {

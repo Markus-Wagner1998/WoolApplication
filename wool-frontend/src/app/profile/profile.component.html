@@ -1,23 +1,23 @@
 <div class="profile-box">
     <div class="profile-outer">
         <form class="profile-inner" (ngSubmit)="updateUser()">
-            <div class="profile-label">Vorname</div>
-            <input type="text" name="firstName" class="profile-input" (ngModelChange)="resetState()" [(ngModel)]="user.firstName">
-            <div class="profile-label">Nachname</div>
-            <input type="text" name="lastName" class="profile-input" (ngModelChange)="resetState()" [(ngModel)]="user.lastName">
-            <div class="profile-label">E-Mail</div>
-            <input type="text" name="username" class="profile-input" (ngModelChange)="resetState()" disabled [(ngModel)]="user.email">
-            <div class="profile-label">Passwort</div>
-            <input type="password" name="password" class="profile-input" (ngModelChange)="resetState()" [(ngModel)]="user.password">
-            <div class="profile-label">Passwort wiederholen</div>
-            <input type="password" name="password-repeat" class="profile-input" (ngModelChange)="resetState()" [(ngModel)]="user.passwordRepeat">
+            <div class="form-label">Vorname</div>
+            <input type="text" name="firstName" class="form-input" (ngModelChange)="resetState()" [(ngModel)]="user.firstName">
+            <div class="form-label">Nachname</div>
+            <input type="text" name="lastName" class="form-input" (ngModelChange)="resetState()" [(ngModel)]="user.lastName">
+            <div class="form-label">E-Mail</div>
+            <input type="text" name="username" class="form-input" (ngModelChange)="resetState()" disabled [(ngModel)]="user.email">
+            <div class="form-label">Passwort</div>
+            <input type="password" name="password" class="form-input" (ngModelChange)="resetState()" [(ngModel)]="user.password">
+            <div class="form-label">Passwort wiederholen</div>
+            <input type="password" name="password-repeat" class="form-input" (ngModelChange)="resetState()" [(ngModel)]="user.passwordRepeat">
             <button type="submit" class="profile-button">Benutzer updaten</button>
         </form>
     </div>
-    <div class="profile-error" *ngIf="error">
+    <div class="message-container error" *ngIf="error">
         {{getErrorMessage()}}
     </div>
-    <div class="profile-success" *ngIf="success">
+    <div class="message-container info" *ngIf="success">
         {{getSuccessMessage()}}
     </div>
 </div>

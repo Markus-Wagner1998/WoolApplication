@@ -33,10 +33,13 @@ export class AuthenticationService {
       }
     ).subscribe({
       next: (data) => {
-        this.jwtToken = data.token;
-        localStorage.setItem('jwt', this.jwtToken);
+        localStorage.clear();
         this.signupSuccess.next(true);
-        this.router.navigate(['/']);
+        this.router.navigate(['/'], {
+          queryParams: {
+            notActive: true,
+          },
+        });
       },
       error: (error) => this.signupSuccess.next(false),
     });
@@ -74,7 +77,11 @@ export class AuthenticationService {
   logout(): void {
     this.jwtToken = '';
     localStorage.clear();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'], {
+      queryParams: {
+        loggedOut: true,
+      },
+    });
   }
 
 }

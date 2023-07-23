@@ -17,9 +17,13 @@ export class RegisterComponent {
     '',
   );
   error: boolean = false;
+  isLoading: boolean = false;
 
   constructor(private readonly authenticationService: AuthenticationService) {
-    this.authenticationService.signupSuccess.subscribe((value) => this.error = !value);
+    this.authenticationService.signupSuccess.subscribe((value) => {
+      this.error = !value;
+      this.isLoading = false;
+    });
   }
 
   getErrorMessage(): string {
@@ -39,6 +43,7 @@ export class RegisterComponent {
   performSignup(): void {
     if (this.user.isCreateValid()) {
       this.error = false;
+      this.isLoading = true;
       this.authenticationService.register(
         this.user.firstName, 
         this.user.lastName, 
@@ -47,7 +52,13 @@ export class RegisterComponent {
       );
     } else {
       this.error = true;
+      this.isLoading = false;
     }
+  }
+
+  resetState(): void {
+    this.error = false;
+    this.isLoading = false;
   }
 
 }

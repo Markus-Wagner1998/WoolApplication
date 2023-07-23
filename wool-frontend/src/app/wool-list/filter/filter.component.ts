@@ -5,7 +5,7 @@ import { WoolFilter } from 'src/app/data/Wool';
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.css']
+  styleUrls: ['./filter.component.css', '../../app.component.css']
 })
 export class FilterComponent {
   woolFilter: WoolFilter = {

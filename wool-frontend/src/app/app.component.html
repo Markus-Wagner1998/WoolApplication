@@ -18,7 +18,7 @@
                 <div class="menu" *ngIf="menuOpen">
                     <a class="navmenu-link" *ngIf="!isLoggedIn()" routerLink="/login" routerLinkActive="active"
                         ariaCurrentWhenActive="page">
-                        <div class="button">
+                        <div class="navmenu-button">
                             <span class="material-symbols-outlined">
                                 login
                             </span>
@@ -27,16 +27,25 @@
                     </a>
                     <a class="navmenu-link" *ngIf="!isLoggedIn()" routerLink="/register" routerLinkActive="active"
                         ariaCurrentWhenActive="page">
-                        <div class="button">
+                        <div class="navmenu-button">
                             <span class="material-symbols-outlined">
                                 person
                             </span>
                             <span class="button-hint">Registrieren</span>
                         </div>
                     </a>
+                    <a class="navmenu-link" *ngIf="!isLoggedIn()" routerLink="/resetPassword" routerLinkActive="active"
+                        ariaCurrentWhenActive="page">
+                        <div class="navmenu-button">
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+                            <span class="button-hint">Passwort zurücksetzen</span>
+                        </div>
+                    </a>
                     <a class="navmenu-link" *ngIf="isLoggedIn()" routerLink="/profile" routerLinkActive="active"
                         ariaCurrentWhenActive="page">
-                        <div class="button">
+                        <div class="navmenu-button">
                             <span class="material-symbols-outlined">
                                 person
                             </span>
@@ -46,7 +55,7 @@
                 </div>
             </div>
         </div>
-        <div class="button" *ngIf="isLoggedIn()" (click)="logout()">
+        <div class="navmenu-button" *ngIf="isLoggedIn()" (click)="logout()">
             <span class="material-symbols-outlined">
                 logout
             </span>

@@ -16,6 +16,9 @@ import { LoginComponent } from './login/login.component';
 import { JwtAuthInterceptor } from './authentication/jwt.auth.interceptor';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { ActivateAccountComponent } from './activate-account/activate-account.component';
+import { PasswordResetHashComponent } from './password-reset-hash/password-reset-hash.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,10 @@ import { ProfileComponent } from './profile/profile.component';
     InputAutocompleteComponent,
     LoginComponent,
     RegisterComponent,
-    ProfileComponent
+    ProfileComponent,
+    PasswordResetComponent,
+    ActivateAccountComponent,
+    PasswordResetHashComponent
   ],
   imports: [
     BrowserModule,

@@ -1,20 +1,21 @@
-<div class="signup-box">
+<div class="signup-box" *ngIf="!isLoading">
     <div class="signup-outer">
         <form class="signup-inner" (ngSubmit)="performSignup()">
-            <div class="signup-label">Vorname</div>
-            <input type="text" name="firstName" class="signup-input" [(ngModel)]="user.firstName">
-            <div class="signup-label">Nachname</div>
-            <input type="text" name="lastName" class="signup-input" [(ngModel)]="user.lastName">
-            <div class="signup-label">E-Mail</div>
-            <input type="text" name="username" class="signup-input" [(ngModel)]="user.email">
-            <div class="signup-label">Passwort</div>
-            <input type="password" name="password" class="signup-input" [(ngModel)]="user.password">
-            <div class="signup-label">Passwort wiederholen</div>
-            <input type="password" name="password-repeat" class="signup-input" [(ngModel)]="user.passwordRepeat">
-            <button type="submit" class="signup-button">Registrieren</button>
+            <div class="form-label">Vorname</div>
+            <input type="text" name="firstName" class="form-input" (ngModelChange)="resetState()" [(ngModel)]="user.firstName">
+            <div class="form-label">Nachname</div>
+            <input type="text" name="lastName" class="form-input" (ngModelChange)="resetState()" [(ngModel)]="user.lastName">
+            <div class="form-label">E-Mail</div>
+            <input type="text" name="username" class="form-input" (ngModelChange)="resetState()" [(ngModel)]="user.email">
+            <div class="form-label">Passwort</div>
+            <input type="password" name="password" class="form-input" (ngModelChange)="resetState()" [(ngModel)]="user.password">
+            <div class="form-label">Passwort wiederholen</div>
+            <input type="password" name="password-repeat" class="form-input" (ngModelChange)="resetState()" [(ngModel)]="user.passwordRepeat">
+            <button type="submit" class="form-button">Registrieren</button>
         </form>
     </div>
-    <div class="signup-error" *ngIf="error">
+    <div class="message-container error" *ngIf="error">
         {{getErrorMessage()}}
     </div>
 </div>
+<app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
