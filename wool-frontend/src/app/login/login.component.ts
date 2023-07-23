@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css', '../app.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   email: string = '';
   password: string = '';
   error: boolean = false;
@@ -16,6 +16,9 @@ export class LoginComponent {
 
   constructor(private authenticationService: AuthenticationService,
               private readonly route: ActivatedRoute) {
+  }
+
+  ngOnInit(): void {
     this.authenticationService.loginSuccess.subscribe((value) => this.error = !value);
     this.route.queryParams.subscribe((queryParams) => {
       if(queryParams['passwordReset'] && queryParams['passwordReset'] === 'true') {

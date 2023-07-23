@@ -64,7 +64,6 @@ export class ProfileComponent implements OnInit {
   }
 
   resetState(): void {
-    console.log("called")
     this.error = false;
     this.success = false;
   }

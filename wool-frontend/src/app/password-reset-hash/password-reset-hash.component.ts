@@ -55,6 +55,7 @@ export class PasswordResetHashComponent implements OnInit {
 
   resetState(): void {
     this.error = false;
+    this.isLoading = false;
   }
 
 }

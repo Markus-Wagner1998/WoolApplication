@@ -134,4 +134,14 @@ describe('RegisterComponent', () => {
     expect(component.error).toBeTrue();
   });
 
+  it('should reset state', () => {
+    component.error = true;
+    component.isLoading = true;
+
+    component.resetState();
+
+    expect(component.error).toBeFalse();
+    expect(component.isLoading).toBeFalse();
+  })
+
 });
