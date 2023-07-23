@@ -50,6 +50,12 @@ public class User implements UserDetails {
     @NotEmpty
     private String password;
 
+    @Column(name = "hash")
+    private String hash;
+
+    @Column(name = "active")
+    private boolean active;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Inventory> inventories;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -69,7 +75,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return active;
     }
 
     @Override
