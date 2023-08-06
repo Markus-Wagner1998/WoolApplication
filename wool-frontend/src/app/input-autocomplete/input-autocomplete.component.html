@@ -1,10 +1,10 @@
 <div class="wrapper" >
     <input class="create-input" type="text" [(ngModel)]="data" (focus)="showAutocomplete=true"
-        (ngModelChange)="onInput()" (blur)="removeAutocomplete()">
+        (ngModelChange)="onInput()" (blur)="removeAutocomplete()" (keyup.arrowdown)="handleArrowDown()" (keyup.arrowup)="handleArrowUp()" (keydown)="handleEnter($event)">
     <div [hidden]="!showAutocomplete || autocompleteOptions.length === 0" class="autocomplete-wrapper">
         <datalist>
-            <option class="autocomplete-list-item" *ngFor="let option of autocompleteOptions"
-                (click)="onOptionClick(option)" [value]="option">
+            <option class="autocomplete-list-item" *ngFor="let option of autocompleteOptions; let i = index"
+                (click)="onOptionClick(option)" [value]="option" [ngClass]="{'selected': isSelected(i)}">
                 {{option}}
             </option>
         </datalist>

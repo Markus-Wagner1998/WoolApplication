@@ -9,6 +9,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class InputAutocompleteComponent {
   showAutocomplete: boolean = false;
   autocompleteOptions: string[] = [];
+  selectedIndex: number = -1;
 
   @Input() dataType: string = '';
 
@@ -24,6 +25,7 @@ export class InputAutocompleteComponent {
         .subscribe((returnData?: string[]) => {
           if (returnData) {
             this.autocompleteOptions = returnData;
+            this.showAutocomplete = true;
           }
         });
     } else {
@@ -41,6 +43,28 @@ export class InputAutocompleteComponent {
   async removeAutocomplete(): Promise<void> {
     await new Promise(resolve => setTimeout(resolve, 200));
     this.showAutocomplete = false;
+  }
+
+  handleArrowDown(): void {
+    this.selectedIndex = Math.min(this.selectedIndex + 1, this.autocompleteOptions.length - 1);
+  }
+
+  handleArrowUp(): void {
+    this.selectedIndex = Math.max(this.selectedIndex - 1, 0);
+  }
+
+  handleEnter(event: KeyboardEvent): void {
+    if (event.code === 'Enter') {
+      if (this.selectedIndex >= 0 && this.selectedIndex < this.autocompleteOptions.length) {
+        this.data = this.autocompleteOptions[this.selectedIndex];
+        this.showAutocomplete = false;
+      }
+      event.preventDefault();
+    }
+  }
+
+  isSelected(index: number): boolean {
+    return this.selectedIndex === index;
   }
 
 }

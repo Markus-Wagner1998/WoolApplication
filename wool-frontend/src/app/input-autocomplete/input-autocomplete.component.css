@@ -52,3 +52,7 @@ ul {
 datalist {
     display: block;
 }
+
+.selected {
+    background-color: lightskyblue; 
+  }
