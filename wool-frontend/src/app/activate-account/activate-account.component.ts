@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { getHttpUrl } from '../util';
 
 @Component({
   selector: 'app-activate-account',
@@ -19,7 +20,7 @@ export class ActivateAccountComponent implements OnInit {
     this.route.queryParams.subscribe((queryParams) => {
       if (queryParams['hash']) {
         const currentUserhash: string = queryParams['hash'];
-        this.http.get('/api/auth/activate/' + currentUserhash).subscribe((data) => {
+        this.http.get(getHttpUrl('/api/auth/activate/' + currentUserhash)).subscribe((data) => {
           this.router.navigate(['/login'], {
             queryParams: {
               active: true,

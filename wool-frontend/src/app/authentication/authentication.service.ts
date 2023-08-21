@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, catchError } from 'rxjs';
+import { getHttpUrl } from '../util';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class AuthenticationService {
 
   register(firstName: string, lastName: string, email: string, password: string): void {
     this.http.post<JwtTokenResponse>(
-      '/api/auth/signup',
+      getHttpUrl('/api/auth/signup'),
       {
         firstName: firstName,
         lastName: lastName,
@@ -48,7 +49,7 @@ export class AuthenticationService {
 
   login(email: string, password: string): void {
     this.http.post<JwtTokenResponse>(
-      '/api/auth/signin',
+      getHttpUrl('/api/auth/signin'),
       {
         email: email,
         password: password
@@ -66,7 +67,7 @@ export class AuthenticationService {
 
   refresh(): void {
     this.http.get<JwtTokenResponse>(
-      '/api/auth/refresh'
+      getHttpUrl('/api/auth/refresh'),
     ).subscribe({
       next: (data) => {
         this.jwtToken = data.token;

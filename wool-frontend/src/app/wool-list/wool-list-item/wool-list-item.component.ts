@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Wool } from 'src/app/data/Wool';
 import { DialogService } from 'src/app/service/dialog.service';
+import { getHttpUrl } from 'src/app/util';
 
 @Component({
   selector: 'app-wool-list-item',
@@ -40,7 +41,7 @@ export class WoolListItemComponent {
       type: 'info',
     });
     this.dialogService.dialogComponentRef!.instance.onYesClick.subscribe(() => {
-      const inventoryUrl = '/api/inventory/';
+      const inventoryUrl = getHttpUrl('/api/inventory/');
       this.http.delete<Wool>(inventoryUrl + this.wool.id)
         .subscribe(() => {
           this.elementDeletedEmitter.next();

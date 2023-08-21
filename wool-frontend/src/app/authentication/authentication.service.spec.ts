@@ -5,6 +5,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { getHttpUrl } from '../util';
 
 describe('AuthenticationService', () => {
   let service: AuthenticationService;
@@ -45,7 +46,7 @@ describe('AuthenticationService', () => {
     service.register('firstName', 'lastName', 'email', 'password');
 
     expect(postSpy).toHaveBeenCalledOnceWith(
-      '/api/auth/signup', 
+      getHttpUrl('/api/auth/signup'), 
       {
         firstName: 'firstName',
         lastName: 'lastName',
@@ -72,7 +73,7 @@ describe('AuthenticationService', () => {
     service.register('firstName', 'lastName', 'email', 'password');
 
     expect(postSpy).toHaveBeenCalledOnceWith(
-      '/api/auth/signup', 
+      getHttpUrl('/api/auth/signup'), 
       {
         firstName: 'firstName',
         lastName: 'lastName',
@@ -94,7 +95,7 @@ describe('AuthenticationService', () => {
     service.login('email', 'password');
 
     expect(postSpy).toHaveBeenCalledOnceWith(
-      '/api/auth/signin', 
+      getHttpUrl('/api/auth/signin'), 
       {
         email: 'email',
         password: 'password',
@@ -115,7 +116,7 @@ describe('AuthenticationService', () => {
     service.login('email', 'password');
 
     expect(postSpy).toHaveBeenCalledOnceWith(
-      '/api/auth/signin', 
+      getHttpUrl('/api/auth/signin'), 
       {
         email: 'email',
         password: 'password',

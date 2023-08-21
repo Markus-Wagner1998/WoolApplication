@@ -6,6 +6,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
+import { getHttpUrl } from '../util';
 
 describe('PasswordResetHashComponent', () => {
   let component: PasswordResetHashComponent;
@@ -67,7 +68,7 @@ describe('PasswordResetHashComponent', () => {
 
     component.performReset();
 
-    expect(putSpy).toHaveBeenCalledOnceWith('/api/auth/resetPassword/hashValue', {
+    expect(putSpy).toHaveBeenCalledOnceWith(getHttpUrl('/api/auth/resetPassword/hashValue'), {
       password: 'VALIDPassword',
     });
     expect(navigateSpy).toHaveBeenCalledOnceWith(['/login'], {

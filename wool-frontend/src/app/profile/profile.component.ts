@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { UpdateUserDTO, User, UserDTO } from '../data/User';
+import { getHttpUrl } from '../util';
 
 @Component({
   selector: 'app-profile',
@@ -22,7 +23,7 @@ export class ProfileComponent implements OnInit {
   constructor(private readonly http: HttpClient) { }
 
   ngOnInit(): void {
-    this.http.get<UserDTO>('/api/user').subscribe({
+    this.http.get<UserDTO>(getHttpUrl('/api/user')).subscribe({
       next: (value: UserDTO) => {
         this.user.id = value.id;
         this.user.email = value.email;
@@ -41,7 +42,7 @@ export class ProfileComponent implements OnInit {
         lastName: this.user.lastName,
         password: this.user.password,
       };
-      this.http.put<UserDTO>('/api/user', updateUser).subscribe({
+      this.http.put<UserDTO>(getHttpUrl('/api/user'), updateUser).subscribe({
         next: (value: UserDTO) => {
           this.user.id = value.id;
           this.user.email = value.email;

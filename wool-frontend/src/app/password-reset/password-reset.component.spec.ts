@@ -6,6 +6,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
+import { getHttpUrl } from '../util';
 
 describe('PasswordResetComponent', () => {
   let component: PasswordResetComponent;
@@ -50,7 +51,7 @@ describe('PasswordResetComponent', () => {
 
     expect(component.success).toBeTrue();
     expect(component.isLoading).toBeFalse();
-    expect(putSpy).toHaveBeenCalledOnceWith('/api/auth/preparePasswordReset', {
+    expect(putSpy).toHaveBeenCalledOnceWith(getHttpUrl('/api/auth/preparePasswordReset'), {
       email: 'test@test.de',
     });
     expect(navigateSpy).toHaveBeenCalledOnceWith(['/login']);
@@ -65,7 +66,7 @@ describe('PasswordResetComponent', () => {
 
     expect(component.success).toBeFalse();
     expect(component.isLoading).toBeFalse();
-    expect(putSpy).toHaveBeenCalledOnceWith('/api/auth/preparePasswordReset', {
+    expect(putSpy).toHaveBeenCalledOnceWith(getHttpUrl('/api/auth/preparePasswordReset'), {
       email: 'test@test.de',
     });
     expect(navigateSpy).not.toHaveBeenCalled();

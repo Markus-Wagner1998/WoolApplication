@@ -5,6 +5,7 @@ import { AppRoutingModule } from '../app-routing.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
+import { getHttpUrl } from '../util';
 
 describe('ActivateAccountComponent', () => {
   let component: ActivateAccountComponent;
@@ -33,7 +34,7 @@ describe('ActivateAccountComponent', () => {
     const navigateSpy = spyOn(router, 'navigate').and.stub();
     fixture.detectChanges();
     expect(component).toBeTruthy();
-    expect(getSpy).toHaveBeenCalledOnceWith('/api/auth/activate/hashValue');
+    expect(getSpy).toHaveBeenCalledOnceWith(getHttpUrl('/api/auth/activate/hashValue'));
     expect(navigateSpy).toHaveBeenCalledOnceWith(['/login'], {
       queryParams: {
         active: true,

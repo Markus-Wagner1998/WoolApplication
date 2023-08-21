@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Wool, WoolFilter } from '../data/Wool';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../authentication/authentication.service';
+import { getHttpUrl } from '../util';
 
 @Component({
   selector: 'app-wool-list',
@@ -67,7 +68,7 @@ export class WoolListComponent implements OnInit {
 
   private getWoolList(): void {
     this.loading = true;
-    const inventoryUrl = '/api/inventory';
+    const inventoryUrl = getHttpUrl('/api/inventory');
     const params = {
       params: this.getHttpParams(), 
     }

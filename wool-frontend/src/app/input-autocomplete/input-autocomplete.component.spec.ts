@@ -5,6 +5,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from '../app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
+import { getHttpUrl } from '../util';
 
 describe('InputAutocompleteComponent', () => {
   let component: InputAutocompleteComponent;
@@ -33,7 +34,7 @@ describe('InputAutocompleteComponent', () => {
 
     component.onInput();
 
-    expect(getSpy).toHaveBeenCalledOnceWith('/api/data/type/data');
+    expect(getSpy).toHaveBeenCalledOnceWith(getHttpUrl('/api/data/type/data'));
     expect(component.autocompleteOptions).toEqual(['v1', 'v2']);
   });
 

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../data/User';
+import { getHttpUrl } from '../util';
 
 @Component({
   selector: 'app-password-reset',
@@ -27,7 +28,7 @@ export class PasswordResetComponent {
   performReset(): void {
     if (this.user.isEmailValid()) {
       this.isLoading = true;
-      this.http.put('/api/auth/preparePasswordReset', {
+      this.http.put(getHttpUrl('/api/auth/preparePasswordReset'), {
         email: this.user.email,
       }).subscribe({
         next: () => {

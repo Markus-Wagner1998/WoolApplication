@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 import { Wool } from '../data/Wool';
 import { WoolListItemComponent } from './wool-list-item/wool-list-item.component';
 import { ActivatedRoute } from '@angular/router';
+import { getHttpUrl } from '../util';
 
 describe('WoolListComponent', () => {
   let component: WoolListComponent;
@@ -67,7 +68,7 @@ describe('WoolListComponent', () => {
     component.handleElementDeleted();
 
     expect(component.loading).toBeFalse();
-    expect(getSpy).toHaveBeenCalledWith('/api/inventory', { params: httpParams });
+    expect(getSpy).toHaveBeenCalledWith(getHttpUrl('/api/inventory'), { params: httpParams });
   });
 
   it('should handle element deleted - brand filter', () => {
@@ -78,7 +79,7 @@ describe('WoolListComponent', () => {
     component.handleElementDeleted();
 
     expect(component.loading).toBeFalse();
-    expect(getSpy).toHaveBeenCalledWith('/api/inventory', { params: httpParams });
+    expect(getSpy).toHaveBeenCalledWith(getHttpUrl('/api/inventory'), { params: httpParams });
   });
 
   it('should handle element deleted - color filter', () => {
@@ -89,7 +90,7 @@ describe('WoolListComponent', () => {
     component.handleElementDeleted();
 
     expect(component.loading).toBeFalse();
-    expect(getSpy).toHaveBeenCalledWith('/api/inventory', { params: httpParams });
+    expect(getSpy).toHaveBeenCalledWith(getHttpUrl('/api/inventory'), { params: httpParams });
   });
 
   it('should handle element deleted - initialAmountMin filter', () => {
@@ -100,7 +101,7 @@ describe('WoolListComponent', () => {
     component.handleElementDeleted();
 
     expect(component.loading).toBeFalse();
-    expect(getSpy).toHaveBeenCalledWith('/api/inventory', { params: httpParams });
+    expect(getSpy).toHaveBeenCalledWith(getHttpUrl('/api/inventory'), { params: httpParams });
   });
 
   it('should handle element deleted - initialAmountMax filter', () => {
@@ -111,7 +112,7 @@ describe('WoolListComponent', () => {
     component.handleElementDeleted();
 
     expect(component.loading).toBeFalse();
-    expect(getSpy).toHaveBeenCalledWith('/api/inventory', { params: httpParams });
+    expect(getSpy).toHaveBeenCalledWith(getHttpUrl('/api/inventory'), { params: httpParams });
   });
 
   it('should handle element deleted - intensityMin filter', () => {
@@ -122,7 +123,7 @@ describe('WoolListComponent', () => {
     component.handleElementDeleted();
 
     expect(component.loading).toBeFalse();
-    expect(getSpy).toHaveBeenCalledWith('/api/inventory', { params: httpParams });
+    expect(getSpy).toHaveBeenCalledWith(getHttpUrl('/api/inventory'), { params: httpParams });
   });
 
   it('should handle element deleted - intensityMax filter', () => {
@@ -133,7 +134,7 @@ describe('WoolListComponent', () => {
     component.handleElementDeleted();
 
     expect(component.loading).toBeFalse();
-    expect(getSpy).toHaveBeenCalledWith('/api/inventory', { params: httpParams });
+    expect(getSpy).toHaveBeenCalledWith(getHttpUrl('/api/inventory'), { params: httpParams });
   });
 
   it('should handle element deleted - remainingAmountMin filter', () => {
@@ -144,7 +145,7 @@ describe('WoolListComponent', () => {
     component.handleElementDeleted();
 
     expect(component.loading).toBeFalse();
-    expect(getSpy).toHaveBeenCalledWith('/api/inventory', { params: httpParams });
+    expect(getSpy).toHaveBeenCalledWith(getHttpUrl('/api/inventory'), { params: httpParams });
   });
 
   it('should handle element deleted - remainingAmountMax filter', () => {
@@ -155,7 +156,7 @@ describe('WoolListComponent', () => {
     component.handleElementDeleted();
 
     expect(component.loading).toBeFalse();
-    expect(getSpy).toHaveBeenCalledWith('/api/inventory', { params: httpParams });
+    expect(getSpy).toHaveBeenCalledWith(getHttpUrl('/api/inventory'), { params: httpParams });
   });
 
   it('should handle element deleted - singleAmountMin filter', () => {
@@ -166,7 +167,7 @@ describe('WoolListComponent', () => {
     component.handleElementDeleted();
 
     expect(component.loading).toBeFalse();
-    expect(getSpy).toHaveBeenCalledWith('/api/inventory', { params: httpParams });
+    expect(getSpy).toHaveBeenCalledWith(getHttpUrl('/api/inventory'), { params: httpParams });
   });
 
   it('should handle element deleted - singleAmountMax filter', () => {
@@ -177,7 +178,7 @@ describe('WoolListComponent', () => {
     component.handleElementDeleted();
 
     expect(component.loading).toBeFalse();
-    expect(getSpy).toHaveBeenCalledWith('/api/inventory', { params: httpParams });
+    expect(getSpy).toHaveBeenCalledWith(getHttpUrl('/api/inventory'), { params: httpParams });
   });
 
   it('should remove buttons', () => {

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../data/User';
+import { getHttpUrl } from '../util';
 
 @Component({
   selector: 'app-password-reset-hash',
@@ -38,7 +39,7 @@ export class PasswordResetHashComponent implements OnInit {
   performReset(): void {
     if (this.user.isPasswordValid()) {
       this.isLoading = true;
-        this.http.put('/api/auth/resetPassword/' + this.currentUserHash, {
+        this.http.put(getHttpUrl('/api/auth/resetPassword/') + this.currentUserHash, {
           password: this.user.password,
         }).subscribe((data) => {
           this.isLoading = false;

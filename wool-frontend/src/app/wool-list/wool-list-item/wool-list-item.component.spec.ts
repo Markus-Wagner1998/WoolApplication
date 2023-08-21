@@ -5,6 +5,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DialogService } from 'src/app/service/dialog.service';
 import { Subject, of } from 'rxjs';
 import { Router } from '@angular/router';
+import { getHttpUrl } from 'src/app/util';
 
 describe('WoolListItemComponent', () => {
   let component: WoolListItemComponent;
@@ -101,7 +102,7 @@ describe('WoolListItemComponent', () => {
     dialogService.dialogComponentRef?.instance.onYesClick.next();
 
     expect(stopPropagationCalled).toBeTrue();
-    expect(deleteSpy).toHaveBeenCalledWith('/api/inventory/13');
+    expect(deleteSpy).toHaveBeenCalledWith(getHttpUrl('/api/inventory/13'));
     expect(elementDeletedEmitted).toBeTrue();
   });
   
